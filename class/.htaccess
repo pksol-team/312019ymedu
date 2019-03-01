@@ -1,0 +1,6 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^class\.frankeey\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.class\.frankeey\.com$
+RewriteRule ^/?$ "https\:\/\/frankeey\.ga\/" [R=301,L]
+

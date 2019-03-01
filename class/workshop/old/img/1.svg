@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="207px" height="207px" viewBox="0 0 207 207" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>RecentActivity</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Orange-Waves" transform="translate(-283.000000, -1917.000000)" fill="#0095F7">
+            <g id="RecentActivity" transform="translate(283.000000, 1917.000000)">
+                <circle id="Oval-3" fill-opacity="0.26" cx="103.5" cy="103.5" r="103.5"></circle>
+                <rect id="Rectangle-2" fill-opacity="0.26" x="32" y="77" width="143" height="54" rx="27"></rect>
+                <g id="Group-4" transform="translate(87.000000, 94.000000)" fill-opacity="0.26">
+                    <rect id="Rectangle-2" x="0" y="0" width="64" height="9" rx="4.5"></rect>
+                    <rect id="Rectangle-2" x="0" y="12" width="40" height="9" rx="4.5"></rect>
+                </g>
+                <circle id="Oval-4" cx="59" cy="104" r="18"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

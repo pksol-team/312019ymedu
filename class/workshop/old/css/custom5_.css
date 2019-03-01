@@ -1,0 +1,53 @@
+.container-fluid.acurate {
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important;
+}
+.notice {
+  background-size: cover;
+  background-position: center center;
+}
+.notice .content span {
+  color: #000;
+}
+.notice .content h3 {
+  font-size: 24px;
+  color: #000;
+}
+.notice #clock ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.notice #clock ul li {
+  display: inline-block;
+  margin: 0 5px;
+  font-size: 14px;
+  text-transform: capitalize;
+  font-weight: 400;
+  transition: 0.3s;
+  color: #fff;
+}
+.notice #clock ul li:hover span {
+  color: #fff;
+}
+.notice #clock ul li span {
+  display: block;
+  font-size: 12px;
+  color: #fff;
+  margin-bottom: 0px;
+  font-weight: 800;
+}
+
+.hac {
+    
+    margin-left: 50px;
+}
+
+
+@media (max-width: 767px) {
+	#enroll1-button-top {
+   position: relative;
+}
+}

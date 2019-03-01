@@ -1,0 +1,152 @@
+.weblator_table th.column-id {
+  width: 5%;
+}
+#message {
+  display: none;
+}
+tr.ui-sortable-helper td {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#major-publishing-actions #delete-action {
+  width: 70%;
+  text-align: right;
+  visibility: hidden;
+}
+#major-publishing-actions #delete-action i.animate-spin {
+  -webkit-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+  display: inline-block;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+}
+#namediv .poll-settings tr td.first {
+  width: 200px;
+  max-width: 200px;
+  white-space: normal;
+}
+#namediv .poll-settings tr td input[type='checkbox'] {
+  width: auto;
+}
+#namediv .poll-options tr td input {
+  width: 100%;
+  height: 34px;
+}
+#namediv .poll-options tr td.drag {
+  width: 5%;
+}
+#namediv .poll-options tr td.drag i {
+  font-size: 20px;
+  color: #d6d6d6;
+  cursor: move;
+  cursor: -webkit-grab;
+}
+#namediv .poll-options tr td.colour-option {
+  display: none;
+  margin-bottom: 0;
+}
+#namediv .poll-options td.remove-option {
+  width: 10%;
+}
+#namediv tr.style-options td {
+  padding-bottom: 0;
+}
+#namediv tr.style-options td.first {
+  vertical-align: top;
+}
+#namediv tr.style-options td input[type='checkbox'] {
+  width: auto;
+}
+.ui-state-highlight {
+  height: 59px;
+  background-color: #f5f5f5;
+  border: 1px dashed #d6d6d6;
+}
+.fill {
+  position: relative;
+}
+.fill input {
+  height: 34px;
+  padding-left: 38px;
+}
+.fill .sp-replacer {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.fill .sp-replacer .sp-dd {
+  display: none;
+}
+.fill .sp-replacer .sp-preview {
+  width: 28px;
+  height: 28px;
+  border: 0;
+}
+.fill .sp-replacer .sp-preview .sp-preview-inner {
+  border-radius: 3px;
+}
+.weblator-admin .progress {
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.weblator-admin .progress-bar {
+  float: left;
+  width: 0%;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  background-color: #428bca;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+}
+.weblator-admin .progress-striped .progress-bar {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+  background-size: 40px 40px;
+}
+.weblator-admin .progress.active .progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+}
+.weblator-admin .progress-bar-success {
+  background-color: #5cb85c;
+}
+.weblator-admin .progress-striped .progress-bar-success {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.weblator-admin .progress-bar-info {
+  background-color: #5bc0de;
+}
+.weblator-admin .progress-striped .progress-bar-info {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.weblator-admin .progress-bar-warning {
+  background-color: #f0ad4e;
+}
+.weblator-admin .progress-striped .progress-bar-warning {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.weblator-admin .progress-bar-danger {
+  background-color: #d9534f;
+}
+.weblator-admin .progress-striped .progress-bar-danger {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}

@@ -1,0 +1,2 @@
+2018-10-28T09:22:08+00:00 CRITICAL Allowed memory size of 134217728 bytes exhausted (tried to allocate 4194304 bytes) in /home/frankeey/public_html/videos/wp-includes/compat.php on line 181
+
