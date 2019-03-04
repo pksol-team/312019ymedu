@@ -9604,8 +9604,7 @@ p {
 }
 
 .main-answers .question_detail {
-  margin-top: 25px;
-  margin-left: 61px;
+  margin: 25px 0 15px 61px;
 }
 .main-answers .write_answer {
     margin-top: 40px;
@@ -9613,11 +9612,15 @@ p {
     justify-content: space-between;
     cursor: pointer;
 }
-.main-answers .write_answer {
+.main-answers .write_answer_editor {
     margin-top: 40px;
+    display: none;
 }
 .main-answers .type_answer {
     width: 100%;
     margin-left: 15px;
     margin-top: 5px;
+}
+.main-answers .question-list-question--question-link--iEDXQ {
+  margin-bottom: 20px;
 }

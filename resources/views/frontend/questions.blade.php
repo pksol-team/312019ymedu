@@ -13,7 +13,6 @@
          <div class="col-md-4 course-intro">
             <div class="Video-image-description">
                <?php 
-                  $extensions = ['avi', 'flv', 'wmv', 'mov', 'mp4', '3gp', 'webm'];
                   $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
                   $CourseVimeoLink = $CourseIntroGet->vimeo_link;
                   $CourseUploadVideo = $CourseIntroGet->file;
@@ -97,17 +96,17 @@
               </div>
             </div>
          </div>
-         <div class="question-overview--sort-and-filter--DAEYZ">
+         <!-- <div class="question-overview--sort-and-filter--DAEYZ">
             <div class="question-overview--sort--3l41D form-group">
                <div class="form-control-single-select-container">
-                  <select class="form-control">
+                  <select class="form-control sorting">
                      <option value="popularity">Sort by popular</option>
                      <option value="recency">Sort by recency</option>
                   </select>
                </div>
             </div>
             <div class="question-overview--filters--1pAEF"><label class="checkbox-inline" title=""><input data-purpose="toggle-following" type="checkbox"><span class="checkbox-label">See questions I'm following</span></label><label class="checkbox-inline" title=""><input data-purpose="toggle-unanswered" type="checkbox"><span class="checkbox-label">See questions without responses</span></label></div>
-         </div>
+         </div> -->
        <div>
       <div class="question-list--questions--LUSO1 question-overview--question-list--KlsVt">
         <?php if (!empty($allQuestions)): ?>
@@ -116,7 +115,7 @@
                 <?php 
                   if ($User->image != 0) {
                       $Image = DB::table('uploads')->WHERE('id', $User->image)->first();
-                        if ($CourseImageGet) {
+                        if ($Image) {
                           $UserImage = "/files/$Image->hash/$Image->name";
                         } else {
                          $UserImage = "/frontend/images/defaultImage.jpg";
@@ -153,7 +152,7 @@
             <img src="/frontend/images/no_question.png" alt="No Questions Found!" />
           </div>
         <?php else: ?>
-          <div class="question-list--load-more--3K2un"><button type="button" class="btn btn-secondary">Load more</button></div>
+          <div class="question-list--load-more--3K2un"><button type="button" class="btn btn-secondary load_more">Load more</button></div>
         <?php endif ?>
         <div class="no_question_found_append">&nbsp;</div>
 
@@ -188,48 +187,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
    <script>
-      function cancel(){
-
-         var displayButton = $('div.displayButtons'); 
-        
-         $(displayButton).hide();
-        
-         $('textarea[name=current_user_comment').val('');         
-      }
       $(document).ready(function() {
-         $('.user_cmnt').on('input', function(event) {
-        
-          var get_input = $(this).val();
-          var displayButton = $('div.displayButtons');
-
-          if(get_input != '' && $.trim(get_input)){
-             $(displayButton).show();            
-          }
-          else{
-            $(displayButton).hide(); 
-          }
-
-         });
-         $('#comment_form').submit(function(e){            
-            e.preventDefault();
-            var $this = $(this);
-            var commentData = $this.serializeArray();
-            var action = $this.attr('action');
-            $.ajax({
-               type : 'POST',
-               url : action,
-               data: commentData,
-            })
-            .done(function(response){
-            $(response).appendTo('.currentComment');
-
-               var comments = parseInt($('.countComment').html());
-               
-               $('.countComment').html(comments+1);
-
-               $('.cancel_btn').trigger('click');
-            });
-         });
 
          $('#question_ask').summernote({
             placeholder: 'Type Your Question Here',
@@ -277,6 +235,8 @@
                  data: commentData,
               })
               .done(function(response){
+                $('.question_title').val('');
+                $('.question_ask').val('');
                 $(response).prependTo('.question-overview--question-list--KlsVt');
                 $('.question-overview--wrapper--2yUqR').show();
                 $('.write_question').hide();
@@ -284,6 +244,24 @@
               });
 
             }
+         });
+
+         $('.load_more').on('click', function(e) {
+          var offset = $('.question-list-question--wrapper--1zMqr').length;
+          var data = {
+            "_token": "<?= csrf_token() ?>",
+            "offset": offset,
+            "course_id": "<?= $singleCourse->id ?>"
+          };
+            $.ajax({
+                 type : 'POST',
+                 url : '/load_questions',
+                 data: data
+            })
+            .done(function(response){
+              $(response).appendTo('.question-overview--question-list--KlsVt');
+            });
+
          });
     });
    </script>

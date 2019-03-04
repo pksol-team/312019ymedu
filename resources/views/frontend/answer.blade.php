@@ -13,7 +13,6 @@
          <div class="col-md-4 course-intro">
             <div class="Video-image-description">
                <?php 
-                  $extensions = ['avi', 'flv', 'wmv', 'mov', 'mp4', '3gp', 'webm'];
                   $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
                   $CourseVimeoLink = $CourseIntroGet->vimeo_link;
                   $CourseUploadVideo = $CourseIntroGet->file;
@@ -115,22 +114,39 @@
             </div>
             <div class="question_detail">{!! $Question->question !!}</div>
             <div class="all_responses">
-            <div class="follow_btn"><button class="btn">Follow Responses</button></div>
+            <!-- <div class="follow_btn"><button class="btn">Follow Responses</button></div> -->
               <div class="responses">
                 <div class="question-list-question--wrapper--1zMqr question-overview--question--244jE">
-
+                  <?php if (!empty($AllAnswers)): ?>
+                    <?php foreach ($AllAnswers as $key => $AllAnswer): ?>
+                      <?php $AnswersUser = DB::table('employees')->WHERE('id', $AllAnswer->user_id)->first(); ?>
+                        <?php 
+                          if ($AnswersUser->image != 0) {
+                              $Imageusr = DB::table('uploads')->WHERE('id', $AnswersUser->image)->first();
+                                if ($CourseImageGet) {
+                                  $AnsUserImage = "/files/$Imageusr->hash/$Imageusr->name";
+                                } else {
+                                 $AnsUserImage = "/frontend/images/defaultImage.jpg";
+                                }
+                          } else {
+                             $AnsUserImage = "/frontend/images/defaultImage.jpg";
+                          }
+                        ?>
                     <div class="question-list-question--question-link--iEDXQ">
                        <div>
                           <div>
-                            <img alt="{{ $User->name }}" src="{{ $UserImage }}" class="user-avatar user-avatar--image img-circle">
+                            <img alt="{{ $AnswersUser->name }}" src="{{ $AnsUserImage }}" class="user-avatar user-avatar--image img-circle">
                           </div>
                        </div>
                        <div class="question-list-question--content--SEjFC question-overview--question-content--2M-k-">
-                          <div class="question_user"> {{ $User->name }} <span>- {{ \Carbon\Carbon::parse($Question->created_at)->diffForHumans() }}</span>
+                          <div class="question_user"> {{ $User->name }} <span>- {{ \Carbon\Carbon::parse($AllAnswer->created_at)->diffForHumans() }}</span>
                           </div>
-                          <div class="question-list-question--body--2v0oT">Question->title</div>
+                          <div class="question-list-question--body--2v0oT">{!! $AllAnswer->answer !!}</div>
                        </div>
                     </div>
+                    <?php endforeach ?>
+                  <?php endif ?>
+
                     <div class="write_answer">
                       <div>
                           <div>
@@ -142,8 +158,13 @@
                        </div>
                     </div>
                     <div class="write_answer_editor">
+                      {{ Form::open(['url' => '/write_answer', 'method' => 'post', 'class' => 'post_a_answer']) }}
+                        <input type="hidden" name="course_id" value="{{ $singleCourse->id }}">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                        <input type="hidden" name="question_id" value="{{ $Question->id }}">
                         <textarea name="answer_text" id="type_answer"></textarea>
-                        <button type="button" class="btn btn-danger post_answer">Add an answer</button>
+                        <button type="submit" class="btn btn-danger post_answer">Add an answer</button>
+                      {{ Form::close() }}
                     </div>
                  </div>
               </div><!-- /.responses -->
@@ -153,27 +174,6 @@
       </div>
    </div>
 </div>
-        <?php 
-          $LoginUser = DB::table('employees')->WHERE('id', Auth::user()->id)->first();
-          $LoginUserImage = DB::table('uploads')->WHERE('id', $LoginUser->image)->first();
-          if ($LoginUserImage) {
-            $LoginImage = "/files/$LoginUserImage->hash/$LoginUserImage->name";
-          }else {
-            $LoginImage = "/frontend/images/defaultImage.jpg";
-          }
-         ?>
-        <div class="write_question">
-          {{ Form::open(['url' => '/ask_question', 'method' => 'post', 'class' => 'post_a_question']) }}
-            <h5>Have a technical issue? Our <a href="#">Support Team</a> can help.</h5>
-            <input type="hidden" name="course_id" value="{{ $singleCourse->id }}">
-            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-            <input type="hidden" name="user_name" value="{{ $LoginUser->name }}">  
-            <input type="hidden" name="user_image" value="{{ $LoginImage }}">  
-            <input type="text" name="question_title" class="question_title form-control" required/>
-            <textarea name="question_ask" id="question_ask" cols="30" rows="10" class="question_ask form-control"></textarea>
-            <div><button type="submit" class="btn btn-danger btn-post-question">Post Question</button><button type="button" class="btn btn-cancel-question">Cancel</button></div>
-          {{ Form::close() }}
-        </div><!-- /.write_question -->
       </div><!-- /.com-md-12 -->
     </div><!-- /.row -->
   </div><!-- /.container -->
@@ -182,49 +182,8 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
    <script>
-      function cancel(){
-
-         var displayButton = $('div.displayButtons'); 
-        
-         $(displayButton).hide();
-        
-         $('textarea[name=current_user_comment').val('');         
-      }
+      
       $(document).ready(function() {
-         $('.user_cmnt').on('input', function(event) {
-        
-          var get_input = $(this).val();
-          var displayButton = $('div.displayButtons');
-
-          if(get_input != '' && $.trim(get_input)){
-             $(displayButton).show();            
-          }
-          else{
-            $(displayButton).hide(); 
-          }
-
-         });
-         $('#comment_form').submit(function(e){            
-            e.preventDefault();
-            var $this = $(this);
-            var commentData = $this.serializeArray();
-            var action = $this.attr('action');
-            $.ajax({
-               type : 'POST',
-               url : action,
-               data: commentData,
-            })
-            .done(function(response){
-            $(response).appendTo('.currentComment');
-
-               var comments = parseInt($('.countComment').html());
-               
-               $('.countComment').html(comments+1);
-
-               $('.cancel_btn').trigger('click');
-            });
-         });
-
          $('#type_answer').summernote({
             placeholder: 'Type Your Question Here',
             tabsize: 2,
@@ -256,14 +215,13 @@
           });
          });
 
-         $('.post_a_question').on('submit', function(e) {
+         $('.post_a_answer').on('submit', function(e) {
+            e.preventDefault();
             var $this = $(this);
             var action = $this.attr('action');
             var commentData = $this.serializeArray();
-            var question_title = $('.question_title').val();
-            var question_ask = $('.question_ask').val();
-            if (question_title != '') {
-              e.preventDefault();
+            var answer = $('#type_answer').val();
+            if (answer != '') {
 
               $.ajax({
                  type : 'POST',
@@ -271,12 +229,10 @@
                  data: commentData,
               })
               .done(function(response){
-                $(response).prependTo('.question-overview--question-list--KlsVt');
-                $('.question-overview--wrapper--2yUqR').show();
-                $('.write_question').hide();
-                $(document).find('.no_question_found').hide();
+                window.location.reload();
               });
-
+            } else {
+              alert('Write you answer!');
             }
          });
 
@@ -285,10 +241,6 @@
           $('.write_answer_editor').show();
          });
 
-         $('.post_answer').on('click', function(e) {
-          $(this).parent().hide();
-          $('.write_answer').show();
-         });
     });
    </script>
   <style>

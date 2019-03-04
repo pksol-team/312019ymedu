@@ -21,30 +21,16 @@
       <!-- content -->
       <article id="content" class="col-xs-12 col-md-9">
          <!-- show head -->
-         <header class="show-head">
-            <p></p>
-            <!-- <p> Showing 1–9 of 15 results</p> -->
-            <!--<select class="chosen-select-no-single">-->
-            <!--   <option value="0">All Courses</option>-->
-            <!--   <option value="0">All Courses</option>-->
-            <!--   <option value="0">All Courses</option>-->
-            <!--   <option value="0">All Courses</option>-->
-            <!--</select>-->
-         </header>
-         
          <div class="row flex-wrap">
             <?php
             
             if ($haveCourses): ?>
                <?php if ($haveCourses[0] == NULL): ?>
                   <p>No Courses Found</p>
-               <?php  else: ?>
+               <?php else: ?>
                <?php foreach ($haveCourses as $haveCourse): 
                if($haveCourse->deleted_at == NULL){
-                  
-              
                ?>
-               
                <div class="col-xs-12 col-sm-6 col-lg-4">
                   <!-- popular post -->
                   <article class="popular-post">
@@ -122,34 +108,23 @@
                                     for($i = 0; $i < $total_stars; $i++){
                                         if($i < 5){
                                        ?>
-                                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                          <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
                                         <?php
                                         }
-                                        
                                     }
                                 }
                                 
                                 if($unfillStarts > 0){
-                                    for($i = 0; $i < $unfillStarts; $i++){
-                                        ?>
-                                            <li><span class="far fa-star"><span class="sr-only">star</span></span></li>
-                                        <?php
-                                    }
+                                  for($i = 0; $i < $unfillStarts; $i++) { ?>
+                                        <li><span class="far fa-star"><span class="sr-only">star</span></span></li>
+                                      <?php }
                                 }
                             ?>
-                           <!--<li><span class="fas fa-star"><span class="sr-only">star</span></span></li>-->
-                           <!--<li><span class="fas fa-star"><span class="sr-only">star</span></span></li>-->
-                           <!--<li><span class="fas fa-star"><span class="sr-only">star</span></span></li>-->
-                           <!--<li><span class="fas fa-star"><span class="sr-only">star</span></span></li>-->
-                           <!--<li><span class="far fa-star"><span class="sr-only">star</span></span></li>-->
                         </ul>
-                        
                      </footer>
                   </article>
                </div>
-               <?php 
-               }
-               endforeach ?>
+               <?php } endforeach ?>
                <?php endif ?>
             <?php else: ?>
                <p>No Courses Found</p>
@@ -192,76 +167,48 @@
              <div class="aligncenter overlay">
          <?php
             $getSidebar = DB::table('sidebar_settings')->WHERE('id', 1)->first();
-            
             $videos = DB::table('videos')->WHERE('id', $getSidebar->course_intro)->first();
-            // var_dump($videos);
-            // exit();
-             if($videos){
-            if($videos->video_option == 'vimeo'){
+            if($videos){
+              if($videos->video_option == 'vimeo'){
                 
                 $introCourse = "https://vimeo.com/".$videos->vimeo_link;
                 
                 $headers = get_headers('https://vimeo.com/api/v2/video/'.$videos->vimeo_link.'.json');
-                if(substr($headers[0], 9, 3) != '200'){
-                $introImage = "<img src='/frontend/images/playvideoimage.png' alt='No Thumbnail'>";
-            
-            }
-            
-            else{
-                
-                $vimeo_json_data = json_decode(file_get_contents('https://vimeo.com/api/v2/video/'.$videos->vimeo_link.'.json'));
-                
-                 $introImage = "<img src='".$vimeo_json_data[0]->thumbnail_large."' alt='No Thumbnail'>";
-                
-            }
-                
+                if(substr($headers[0], 9, 3) != '200') {
+                  $introImage = "<img src='/frontend/images/playvideoimage.png' alt='No Thumbnail'>";
+                } else{
+                  $vimeo_json_data = json_decode(file_get_contents('https://vimeo.com/api/v2/video/'.$videos->vimeo_link.'.json'));
+                  $introImage = "<img src='".$vimeo_json_data[0]->thumbnail_large."' alt='No Thumbnail'>";
+                }
             }
             else{
                 $get_Video = DB::table('uploads')->WHERE('id', $videos->file)->first(); 
-                        $introCourse = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
-                        $introImage = "<video src='".$introCourse."' style='width:100%; margin-bottom:-6px;' class='image'></video>";
-            }
-         ?>
-         
-           
+                  $introCourse = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
+                  $introImage = "<video src='".$introCourse."' style='width:100%; margin-bottom:-6px;' class='image'></video>";
+            } ?>
                <a href="{{ $introCourse }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
                <?php echo $introImage; ?>
-               <!--<img src="/frontend/images/img32.jpg" alt="image description">-->
             
-         <?php
-            }else{
-                echo "No Course Intro available";
-            }
-         ?>
+         <?php } else{ echo "No Course Intro available"; } ?>
          </div>
          </section>
          <!-- widget popular posts -->
          <section class="widget widget_popular_posts">
             <h3>Popular Courses</h3>
             <!-- widget cources list -->
-            
-           
             <ul class="widget-cources-list list-unstyled">
-                
-                
-                 <?php
-                
-                 
-                $arrayCourse = trim($getSidebar->popular_courses, '[]');
+            <?php $arrayCourse = trim($getSidebar->popular_courses, '[]');
             if ($arrayCourse != '') {
                 $CourseExplod = explode(',', $arrayCourse);
-              foreach ($CourseExplod as $CourseExploded) {
-                $getCourse = DB::table('all_courses')->WHERE('id', trim($CourseExploded, '""'))->first();
-                if($getCourse){
-                $getImage = DB::table('uploads')->WHERE('id', $getCourse->image)->first();
-                 if ($getImage) {
+                  foreach ($CourseExplod as $CourseExploded) {
+                    $getCourse = DB::table('all_courses')->WHERE('id', trim($CourseExploded, '""'))->first();
+                    if($getCourse){
+                      $getImage = DB::table('uploads')->WHERE('id', $getCourse->image)->first();
+                        if ($getImage) {
                           $courseImage = "/files/$getImage->hash/$getImage->name";
                         } else {
-
                           $courseImage = "/frontend/images/Image_not.jpg";
-                        } 
-                
-                ?>
+                        } ?>
                  <li>
                   <a href="/single_course/<?php echo $getCourse->id; ?>">
                      <div class="alignleft large">
@@ -273,14 +220,11 @@
                      </div>
                   </a>
                </li>
-                <?php
-              }
+            <?php }
               }
             }else{
                 echo "No Popular course yet";
-            }
-            
-            ?>
+            } ?>
               
             </ul>
          </section>
@@ -301,12 +245,9 @@
     }
    jQuery(document).ready(function($) {
     
-    
-        
       $("#searchSubmit").click(function(e) {
         searchsubmit($);
-            
-       });
+      });
       $('#searchForm').submit(function(e) {
         e.preventDefault();
         searchsubmit($);
@@ -315,7 +256,7 @@
 </script>
 
 <style>
-    .fancybox-slide>video{
+    .fancybox-slide>video {
          width:50% !important;
      }
      

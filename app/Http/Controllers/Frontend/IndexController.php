@@ -302,20 +302,19 @@ class IndexController extends Controller
         	return true;
         }
 	}
-	public function login_authenticate($userGet)
-	{
-        	if ($userGet->hash_key != Null && $userGet->status == 'deactive') {
-        		return $messsage = 'Please check your Email and click the confirmation link before <a href="/frontend/login">Login </a>';
-        	}
-        	if ($userGet->hash_key == Null && $userGet->status == 'deactive') {
-        		return $messsage = 'Your profile is in under review process';
-    		}
-	        else {
-	        	return true;
-	        }
+	public function login_authenticate($userGet) {
+    	if ($userGet->hash_key != Null && $userGet->status == 'deactive') {
+    		return $messsage = 'Please check your Email and click the confirmation link before <a href="/frontend/login">Login </a>';
+    	}
+    	if ($userGet->hash_key == Null && $userGet->status == 'deactive') {
+    		return $messsage = 'Your profile is in under review process';
+		}
+        else {
+        	return true;
+        }
 	}
-	public function logout()
-	{
+
+	public function logout() {
 		Auth::logout();
 		session()->flush();
 		return redirect()->back();
@@ -324,8 +323,6 @@ class IndexController extends Controller
 
 	public function submit_comment(Request $request){	
 		$UserImage = $request->user_image;
-
-
 
 		$current_time = Carbon::now()->toDateTimeString();
 		DB::table('comments')->insert([
@@ -384,12 +381,49 @@ class IndexController extends Controller
       return $current_comment;
 	}
 
+	public function write_answer(Request $request){	
+
+        $Question = DB::table('faq_questions')->WHERE('id', $request->question_id)->first();
+        $newCount = (int)$Question->answer_count + 1;
+		$current_time = Carbon::now()->toDateTimeString();
+		DB::table('faq_answers')->insert([
+			'user_id' => $request->user_id,
+			'question_id' => $request->question_id,
+			'course_id' => $request->course_id,
+			'answer' => $request->answer_text,
+			'created_at' => $current_time
+		]);
+		$UpdateCount = ['answer_count' => $newCount];
+        $updates = DB::table('faq_questions')->where('id', $request->question_id)->update($UpdateCount);
+	}
+
 	public function certificate($course_id){
 	    $title = 'Certificate';
 		return view('frontend.certificate', ['courseID' => $course_id], compact('title')); 
 
 	}
-	
+
+	public function load_questions(Request $request){	
+	    $allQuestions = DB::table('faq_questions')->WHERE('course_id', $request->course_id)->orderBy('id', 'DESC')->offset($request->offset)->limit(10)->get();
+	    $newQuestions = "";
+	    if (!empty($allQuestions)) {
+		    foreach ($allQuestions as $key => $allQuestion) {
+		    	$User = DB::table('employees')->WHERE('id', $allQuestion->user_id)->first();
+		    	if ($User->image != 0) {
+                  $Image = DB::table('uploads')->WHERE('id', $User->image)->first();
+                    if ($Image) {
+                      $UserImage = "/files/$Image->hash/$Image->name";
+                    } else {
+                     $UserImage = "/frontend/images/defaultImage.jpg";
+                    }
+                } else {
+                     $UserImage = "/frontend/images/defaultImage.jpg";
+	            }
+	            $newQuestions .= "<div class='question-list-question--wrapper--1zMqr question-overview--question--244jE'><div class='question-list-question--question-link--iEDXQ'><div><div><img alt='".$User->name."' src='".$UserImage."' class='user-avatar user-avatar--image img-circle'></div></div><div class='question-list-question--content--SEjFC question-overview--question-content--2M-k-'><div class='question-list-question--title--4K-V_'>".$User->name."</div><div class='question-list-question--body--2v0oT'><a href='/answer/".$request->course_id."/".$allQuestion->id."'>".$allQuestion->title."</a></div></div><div><div class='question-list-question--num-answers--2vE_g'>".$allQuestion->answer_count."</div><div class='responses'>Responses</div></div></div></div>";
+		    }
+	    }
+	    return $newQuestions;
+	}
 	
 	// Payment
 

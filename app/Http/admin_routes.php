@@ -20,7 +20,15 @@ Route::get('/frontend/thumb', 'Frontend\IndexController@thumb');
 
 // Comment
 Route::post('/comment', 'Frontend\IndexController@submit_comment');
+
+// Questions
 Route::post('/ask_question', 'Frontend\IndexController@ask_question');
+Route::post('/load_questions', 'Frontend\IndexController@load_questions');
+// Answers
+Route::post('/write_answer', 'Frontend\IndexController@write_answer');
+
+// certificate
+
 Route::get('/certificate/{id}', 'Frontend\IndexController@certificate');
 // Payment
 Route::post('/createRequest', 'Frontend\IndexController@createRequest');
