@@ -1,95 +1,115 @@
-@extends('frontend.template.layout')
-@section('title') <?= $title; ?> @stop
-@section('content')
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/style_course_video.css">
+<script src="/frontend/js/javascript_course_video.js"></script>
+     <!------ Include the above in your HEAD tag ---------->
 
-<?php use App\Http\Controllers\Frontend\IndexController; ?>
-<?php use Illuminate\Support\Collection; ?>
+   
+    <!------ Include the above in your HEAD tag ---------->
 
-<main id="main">
-   <!-- breadcrumb nav -->
-   <nav class="breadcrumb-nav">
-      <div class="container">
-         <!-- breadcrumb -->
-         <ol class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li>Course</li>
-            <li class="active">Videos</li>
-         </ol>
-      </div>
-   </nav>
-   <!-- two columns -->
-   <div id="two-columns" class="container">
-      <div class="row">
-         <!-- content -->
-         <article id="content" class="col-xs-12 col-md-12">
-          <div class="favourite col-lg-3 col-md-3 col-sm-3 col-xs-12 scrollStyle">
-             <div class="fav search-form ">
-              <input id="searchInput" type="search" placeholder="Search" onkeyup="searchFunction()" />
-              <table class="datatable" id="datatable">
+   <style>
+     body{
+      background-color: black;
+     }
+   </style>
 
-                <?php
-                $index = 1;
-                  $VideosData = trim($singleCourse->videos, '[]');
-               
-                  if ($VideosData != '') {
-                     if (strlen($VideosData) < 7) {
-                         $explodedData = explode('""', $VideosData);                         
-                      }else {
-                         $explodedData = explode(',', $VideosData);
-                      }
+    </head>
+    
+<body>
+    <div id="wrapper">
+        <div class="overlay_2"></div>
+    
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+              
+            <ul class="nav sidebar-nav" id="datatable">
+                 <li class="head">
+                     <h2>Course Content</h2>
+                 </li>
+                <li class="sidebar-brand">
+                    {{-- <input id="searchInput" type="search" placeholder="Search" onkeyup="searchFunction()" /> --}}
+                    <input id="searchInput" type="text" placeholder="Search Course Content" name="search" onkeyup="searchFunction()">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </li>
 
-                     
-                  foreach ($explodedData as $SingleRowVD){                    
-                    $getData = DB::table('videos')->WHERE('id', trim($SingleRowVD, '""'))->first();
-                     $VideoTitle =  $getData->title;
-                     $VideoDescription =  $getData->description;
-                     $VideoVimeo = $getData->vimeo_link;
-                     $VideoFile =  $getData->file;
-                     $VideoType =  $getData->video_option;
-                        
-                     if($VideoType == 'vimeo'){
-                         
-                      $file = 'https://player.vimeo.com/video/'.$VideoVimeo.'?autoplay=1&loop=1';
+              @php
+              $index = 1;
+                $VideosData = trim($singleCourse->videos, '[]');
+              
+                if ($VideosData != '') {
+                   if (strlen($VideosData) < 7) {
+                       $explodedData = explode('""', $VideosData);                         
+                    }else {
+                       $explodedData = explode(',', $VideosData);
                     }
-                    else {
+
+                   
+                foreach ($explodedData as $SingleRowVD){                    
+                  $getData = DB::table('videos')->WHERE('id', trim($SingleRowVD, '""'))->first();
+                   $VideoTitle =  $getData->title;
+                   $VideoDescription =  $getData->description;
+                   $VideoVimeo = $getData->vimeo_link;
+                   $VideoFile =  $getData->file;
+                   $VideoType =  $getData->video_option;
+                      
+                   if($VideoType == 'vimeo'){
+                       
+                    $file = 'https://player.vimeo.com/video/'.$VideoVimeo.'?autoplay=1&loop=1';
+                  }
+                  else {
+                  
+                    $get_Video = DB::table('uploads')->WHERE('id', trim($VideoFile, '""'))->first(); 
+                    $file = '/files/'.$get_Video->hash.'/'.$get_Video->name.''; 
+
+                  }
+                  $title = $index.". ".$VideoTitle." - Now Playing";
+                   @endphp 
+
+                <li>
+                    <span class="sec">Section: {{ $index }}</span>
+                    <a href="{{ $file }}" class="play_video caption_class" data-type="{{ $VideoType }}" data-href="{{ $file }}"data-title="{{ $title }}"><h3>{{ $VideoTitle }}</h3></a>
                     
-                      $get_Video = DB::table('uploads')->WHERE('id', trim($VideoFile, '""'))->first(); 
-                      $file = '/files/'.$get_Video->hash.'/'.$get_Video->name.''; 
-
-                    }
-                    $title = $index.". ".$VideoTitle." - Now Playing";
-                     ?>
-                     <tr>
-                           <th><span class="indexing">{{ $index }}. </span>
-                            <a href="{{ $file }}" class="caption_class" data-type="{{ $VideoType }}" data-href="{{ $file }}"data-title="{{ $title }}">{{ $VideoTitle }}</a>
-                          </th>
-                        </tr>
-                        <?php
+                </li>
+                 @php
 
                         $index++;
                   }
                   
                   }
-                ?>
-              </table>
-             </div>
-          </div><!-- /.fav -->
-            <div class="purchased col-lg-9 col-md-9 col-sm-9 col-xs-12">
-              <div class="course1 view-header">                  
-                  <div class="col-xs-12 col-sm-9 d-flex1">
-                    <h2></h2>
-                    <div class="d-col1 widget_intro-1">
+                @endphp
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                <i class="fa fa-list-ul" aria-hidden="true"></i>
+            </button>
+                    <div class="video purchased">
+                        <div class="widget_intro-1">
+                        </div><!-- /.course -->
                     </div>
-                  </div>
-                </div><!-- /.course -->
-            </div>
-         </article>
-      </div>
-   </div>
-</main>
+                
+          
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+
+
 <script>
   jQuery(document).ready(function($) { 
-    $('.datatable tr a').on('click', function(e) {
+    $('a.play_video').on('click', function(e) {
       e.preventDefault();
       $('.caption_class').removeClass('active');
       $(this).addClass('active');
@@ -97,19 +117,15 @@
       var href_upload = $(this).attr('data-href');
       var video_type = $(this).attr('data-type');
       var video_title = $(this).attr('data-title');
-      // console.log(href_upload);
-
       if(video_type == 'vimeo'){
-        // var video = '<iframe src="" width="100%" height="307" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="play_video"></iframe>';
-        var video = '<div class="embed-container"><iframe src="" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="play_video"></iframe></div>';
+        var video = '<iframe style="width: 100%; height: 99vh;" src="" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  allow=autoplay class="play_video"></iframe>'
       }
       else{
-        var video = '<video width="100%" controls><source class="play_video" src="" type=""></video>';
+        var video = '<video controls><source class="play_video" src="" type=""></video>';
       }
       
-      console.log(href_upload);
 
-      $('h2').html(video_title);
+      // $('h2').html(video_title);
       $('.widget_intro-1').html(video);
       $('.play_video').attr('src', href_upload);
       $('video').attr('autoplay','1');
@@ -117,18 +133,19 @@
 
     });
 
-    $('.datatable tr:first-child a').trigger('click');
+    console.log($('ul li:nth-child(3) a'));
+    $('ul li:nth-child(3) a').trigger('click');
 
   });
 </script>
-<script>
+    <script>
   function searchFunction() {
       var input, filter, ul, li, a, i, txtValue;
       input = document.getElementById("searchInput");
       filter = input.value.toUpperCase();
       ul = document.getElementById("datatable");
-      li = ul.getElementsByTagName("tr");
-      for (i = 0; i < li.length; i++) {
+      li = ul.getElementsByTagName("li");
+      for (i = 2; i < li.length; i++) {
           a = li[i].getElementsByTagName("a")[0];
           txtValue = a.textContent || a.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -139,8 +156,11 @@
       }
   }
 </script>
+  </body>
+  </html>
 
-<style>
-.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-</style>
-@stop
+
+
+
+
+

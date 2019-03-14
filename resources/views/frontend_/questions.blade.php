@@ -79,101 +79,106 @@
      </div><!-- /.container -->
    </div><!-- /.top_header -->
 <!-- main-questions -->
-<div class="main-answers">
+<div class="main-questions">
   <div class="container">
     <div class="row">
       <div class="com-md-12">
-        <div class="back_to_questions"><a href="/questions/<?= $singleCourse->id; ?>">Back to All Questions</a></div>
+        <div><h1 class="main_heading">F.A.Q</h1></div>
         <div class="question-overview--wrapper--2yUqR">
-       <div>
-        <?php $User = DB::table('employees')->WHERE('id', $Question->user_id)->first(); ?>
-        <?php 
-          if ($User->image != 0) {
-              $Image = DB::table('uploads')->WHERE('id', $User->image)->first();
-                if ($CourseImageGet) {
-                  $UserImage = "/files/$Image->hash/$Image->name";
-                } else {
-                 $UserImage = "/frontend/images/defaultImage.jpg";
-                }
-          } else {
-             $UserImage = "/frontend/images/defaultImage.jpg";
-          }
-          ?>
-      <div class="question-list--questions--LUSO1 question-overview--question-list--KlsVt">
-         <div class="question-list-question--wrapper--1zMqr question-overview--question--244jE">
-            <div class="question-list-question--question-link--iEDXQ">
-               <div>
-                  <div>
-                    <img alt="{{ $User->name }}" src="{{ $UserImage }}" class="user-avatar user-avatar--image img-circle">
-                  </div>
-               </div>
-               <div class="question-list-question--content--SEjFC question-overview--question-content--2M-k-">
-                  <div class="question-list-question--title--4K-V_"> {{ $Question->title }}</div>
-                  <div class="question_user"> {{ $User->name }} <span>- {{ \Carbon\Carbon::parse($Question->created_at)->diffForHumans() }}</span></div>
+         <div class="question-overview--search-bar--3yFsJ">
+            <div class="row question-overview--search--3TyVh form-group">
+              <div class="col-md-9">
+                <input placeholder="Search for a question" type="text" class="form-control search_questions" value="">
+              </div>
+              <div class="col-md-3">
+                <span class="question-overview--or--WmGRo">or</span>
+                <button type="button" class="btn btn-danger ask_a_question">Ask a new question</button>
+              </div>
+            </div>
+         </div>
+         <!-- <div class="question-overview--sort-and-filter--DAEYZ">
+            <div class="question-overview--sort--3l41D form-group">
+               <div class="form-control-single-select-container">
+                  <select class="form-control sorting">
+                     <option value="popularity">Sort by popular</option>
+                     <option value="recency">Sort by recency</option>
+                  </select>
                </div>
             </div>
-            <div class="question_detail">{!! $Question->question !!}</div>
-            <div class="all_responses">
-            <!-- <div class="follow_btn"><button class="btn">Follow Responses</button></div> -->
-              <div class="responses">
-                <div class="question-list-question--wrapper--1zMqr question-overview--question--244jE">
-                  <?php if (!empty($AllAnswers)): ?>
-                    <?php foreach ($AllAnswers as $key => $AllAnswer): ?>
-                      <?php $AnswersUser = DB::table('employees')->WHERE('id', $AllAnswer->user_id)->first(); ?>
-                        <?php 
-                          if ($AnswersUser->image != 0) {
-                              $Imageusr = DB::table('uploads')->WHERE('id', $AnswersUser->image)->first();
-                                if ($CourseImageGet) {
-                                  $AnsUserImage = "/files/$Imageusr->hash/$Imageusr->name";
-                                } else {
-                                 $AnsUserImage = "/frontend/images/defaultImage.jpg";
-                                }
-                          } else {
-                             $AnsUserImage = "/frontend/images/defaultImage.jpg";
-                          }
-                        ?>
+            <div class="question-overview--filters--1pAEF"><label class="checkbox-inline" title=""><input data-purpose="toggle-following" type="checkbox"><span class="checkbox-label">See questions I'm following</span></label><label class="checkbox-inline" title=""><input data-purpose="toggle-unanswered" type="checkbox"><span class="checkbox-label">See questions without responses</span></label></div>
+         </div> -->
+       <div>
+      <div class="question-list--questions--LUSO1 question-overview--question-list--KlsVt">
+        <?php if (!empty($allQuestions)): ?>
+          <?php foreach ($allQuestions as $key => $allQuestion): ?>
+                <?php $User = DB::table('employees')->WHERE('id', $allQuestion->user_id)->first(); ?>
+                <?php 
+                  if ($User->image != 0) {
+                      $Image = DB::table('uploads')->WHERE('id', $User->image)->first();
+                        if ($Image) {
+                          $UserImage = "/files/$Image->hash/$Image->name";
+                        } else {
+                         $UserImage = "/frontend/images/defaultImage.jpg";
+                        }
+                  } else {
+                     $UserImage = "/frontend/images/defaultImage.jpg";
+                  }
+                ?>
+                 <div class="question-list-question--wrapper--1zMqr question-overview--question--244jE">
                     <div class="question-list-question--question-link--iEDXQ">
                        <div>
-                          <div>
-                            <img alt="{{ $AnswersUser->name }}" src="{{ $AnsUserImage }}" class="user-avatar user-avatar--image img-circle">
-                          </div>
-                       </div>
-                       <div class="question-list-question--content--SEjFC question-overview--question-content--2M-k-">
-                          <div class="question_user"> {{ $AnswersUser->name }} <span>- {{ \Carbon\Carbon::parse($AllAnswer->created_at)->diffForHumans() }}</span>
-                          </div>
-                          <div class="question-list-question--body--2v0oT">{!! $AllAnswer->answer !!}</div>
-                       </div>
-                    </div>
-                    <?php endforeach ?>
-                  <?php endif ?>
-
-                    <div class="write_answer">
-                      <div>
                           <div>
                             <img alt="{{ $User->name }}" src="{{ $UserImage }}" class="user-avatar user-avatar--image img-circle">
                           </div>
                        </div>
-                       <div class="type_answer">
-                          <input type="text" class="form-control write_answer_input" value="" placeholder="Add an answer" />
+                       <div class="question-list-question--content--SEjFC question-overview--question-content--2M-k-">
+                          <div class="question-list-question--title--4K-V_"> {{ $User->name }} </div>
+                          <div class="question-list-question--body--2v0oT"><a href="/answer/<?= $singleCourse->id ?>/<?= $allQuestion->id ?>">{{ $allQuestion->title }}</a></div>
+                       </div>
+                       <div>
+                          <div class="question-list-question--num-answers--2vE_g">{{ $allQuestion->answer_count }}</div>
+                          <div class="responses">Responses</div>
                        </div>
                     </div>
-                    <div class="write_answer_editor">
-                      {{ Form::open(['url' => '/write_answer', 'method' => 'post', 'class' => 'post_a_answer']) }}
-                        <input type="hidden" name="course_id" value="{{ $singleCourse->id }}">
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                        <input type="hidden" name="question_id" value="{{ $Question->id }}">
-                        <textarea name="answer_text" id="type_answer"></textarea>
-                        <button type="submit" class="btn btn-danger post_answer">Add an answer</button>
-                      {{ Form::close() }}
-                    </div>
                  </div>
-              </div><!-- /.responses -->
-            </div>
-         </div>
+          <?php endforeach ?>
+        <?php endif ?>
          
       </div>
+        <?php if (empty($allQuestions)): ?>
+          <div class="no_question_found">
+            <h5>No questions found</h5>
+            <p>Be the first to ask your question! You'll be able to add details in the next step</p>
+            <img src="/frontend/images/no_question.png" alt="No Questions Found!" />
+          </div>
+        <?php else: ?>
+          <div class="question-list--load-more--3K2un"><button type="button" class="btn btn-secondary load_more">Load more</button></div>
+        <?php endif ?>
+        <div class="no_question_found_append">&nbsp;</div>
+
    </div>
 </div>
+        <?php 
+          $LoginUser = DB::table('employees')->WHERE('id', Auth::user()->id)->first();
+          $LoginUserImage = DB::table('uploads')->WHERE('id', $LoginUser->image)->first();
+          if ($LoginUserImage) {
+            $LoginImage = "/files/$LoginUserImage->hash/$LoginUserImage->name";
+          }else {
+            $LoginImage = "/frontend/images/defaultImage.jpg";
+          }
+         ?>
+        <div class="write_question">
+          {{ Form::open(['url' => '/ask_question', 'method' => 'post', 'class' => 'post_a_question']) }}
+            <h5>Have a technical issue? Our <a href="#">Support Team</a> can help.</h5>
+            <input type="hidden" name="course_id" value="{{ $singleCourse->id }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="user_name" value="{{ $LoginUser->name }}">  
+            <input type="hidden" name="user_image" value="{{ $LoginImage }}">  
+            <input type="text" name="question_title" class="question_title form-control" required/>
+            <textarea name="question_ask" id="question_ask" cols="30" rows="10" class="question_ask form-control"></textarea>
+            <div><button type="submit" class="btn btn-danger btn-post-question">Post Question</button><button type="button" class="btn btn-cancel-question">Cancel</button></div>
+          {{ Form::close() }}
+        </div><!-- /.write_question -->
       </div><!-- /.com-md-12 -->
     </div><!-- /.row -->
   </div><!-- /.container -->
@@ -182,9 +187,9 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
 
    <script>
-      
       $(document).ready(function() {
-         $('#type_answer').summernote({
+
+         $('#question_ask').summernote({
             placeholder: 'Type Your Question Here',
             tabsize: 2,
             height: 100
@@ -215,13 +220,14 @@
           });
          });
 
-         $('.post_a_answer').on('submit', function(e) {
-            e.preventDefault();
+         $('.post_a_question').on('submit', function(e) {
             var $this = $(this);
             var action = $this.attr('action');
             var commentData = $this.serializeArray();
-            var answer = $('#type_answer').val();
-            if (answer != '') {
+            var question_title = $('.question_title').val();
+            var question_ask = $('.question_ask').val();
+            if (question_title != '') {
+              e.preventDefault();
 
               $.ajax({
                  type : 'POST',
@@ -229,18 +235,34 @@
                  data: commentData,
               })
               .done(function(response){
-                window.location.reload();
+                $('.question_title').val('');
+                $('.question_ask').val('');
+                $(response).prependTo('.question-overview--question-list--KlsVt');
+                $('.question-overview--wrapper--2yUqR').show();
+                $('.write_question').hide();
+                $(document).find('.no_question_found').hide();
               });
-            } else {
-              alert('Write you answer!');
+
             }
          });
 
-         $('.write_answer_input').on('focus', function(e) {
-          $(this).parent().parent().hide();
-          $('.write_answer_editor').show();
-         });
+         $('.load_more').on('click', function(e) {
+          var offset = $('.question-list-question--wrapper--1zMqr').length;
+          var data = {
+            "_token": "<?= csrf_token() ?>",
+            "offset": offset,
+            "course_id": "<?= $singleCourse->id ?>"
+          };
+            $.ajax({
+                 type : 'POST',
+                 url : '/load_questions',
+                 data: data
+            })
+            .done(function(response){
+              $(response).appendTo('.question-overview--question-list--KlsVt');
+            });
 
+         });
     });
    </script>
   <style>

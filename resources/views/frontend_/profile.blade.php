@@ -28,11 +28,7 @@
                <?php
                   $foundbought = false; 
                   $userId = $user->id;
-                  $AllCourses = DB::table('all_courses')->WHERE([
-                    ['status', '=', 'Active'], 
-                    ['purchased_by', 'like', '%"'.$userId.'"%']
-                  ])->orderBy('created_at', 'DESC')->paginate(5);
-                  
+                  $AllCourses = DB::table('all_courses')->WHERE([['status', '=', 'Active'], ['purchased_by', '!=', '[]']])->orderBy('created_at', 'DESC')->paginate(5);
                   if ($AllCourses->count() > 0) {
                      foreach ($AllCourses as $key => $AllCourse) {
                      $arrayPurchased = explode(',', trim($AllCourse->purchased_by, "[]"));

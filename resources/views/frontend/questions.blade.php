@@ -10,46 +10,46 @@
    <div class="top_header">
      <div class="container">
        <div class="row">
-         <div class="col-md-4 course-intro">
-            <div class="Video-image-description">
-               <?php 
-                  $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
-                  $CourseVimeoLink = $CourseIntroGet->vimeo_link;
-                  $CourseUploadVideo = $CourseIntroGet->file;
+          <div class="col-md-4 course-intro">
+              <div class="Video-image-description">
+                 <?php 
+                    $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
+                    $CourseVimeoLink = $CourseIntroGet->vimeo_link;
+                    $CourseUploadVideo = $CourseIntroGet->file;
 
-                  if(empty($CourseVimeoLink)){
-                     $VideosTrimed = trim($CourseUploadVideo, '[]');
-                     if ($VideosTrimed != '') {
-                       if (strlen($VideosTrimed) < 7) {
-                         $exploded_Videos = explode('""', $VideosTrimed);
-                       } else {
-                         $exploded_Videos = explode(',', $VideosTrimed);
+                    if(empty($CourseVimeoLink)){
+                       $VideosTrimed = trim($CourseUploadVideo, '[]');
+                       if ($VideosTrimed != '') {
+                         if (strlen($VideosTrimed) < 7) {
+                           $exploded_Videos = explode('""', $VideosTrimed);
+                         } else {
+                           $exploded_Videos = explode(',', $VideosTrimed);
+                         }
+                         $index = 0;
+
+                         foreach ($exploded_Videos as $exploded_Video) {
+                           $get_Video = DB::table('uploads')->WHERE('id', trim($exploded_Video, '""'))->first(); 
+                           $CourseVideo = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
+                         }
                        }
-                       $index = 0;
+                     } else{
+                        $CourseVideo = "https://vimeo.com/".$CourseVimeoLink;
+                     } 
+                     $CourseImageGet = DB::table('uploads')->WHERE('id', $singleCourse->image)->first();
+                      if ($CourseImageGet) {
+                         $CourseImage = "/files/$CourseImageGet->hash/$CourseImageGet->name";
+                      } else {
+                         $CourseImage = "/frontend/images/Image_not.jpg";
+                      }
+                  ?>
 
-                       foreach ($exploded_Videos as $exploded_Video) {
-                         $get_Video = DB::table('uploads')->WHERE('id', trim($exploded_Video, '""'))->first(); 
-                         $CourseVideo = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
-                       }
-                     }
-                   } else{
-                      $CourseVideo = "https://vimeo.com/".$CourseVimeoLink;
-                   } 
-                   $CourseImageGet = DB::table('uploads')->WHERE('id', $singleCourse->image)->first();
-                    if ($CourseImageGet) {
-                       $CourseImage = "/files/$CourseImageGet->hash/$CourseImageGet->name";
-                    } else {
-                       $CourseImage = "/frontend/images/Image_not.jpg";
-                    }
-                ?>
+                  <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
+                   <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
+                   @section('image') <?= $CourseImage; ?>@stop             
+              </div>
+          </div><!-- /.course-intro -->
 
-              <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-               <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-               @section('image') <?= $CourseImage; ?>@stop
-               
-            </div>
-         </div><!-- /.course-intro -->
-         <div class="col-md-8 course-description">
+        <div class="col-md-8 course-description">
           <a href="/single_course/<?= $singleCourse->id ?>"><h2>{{ $singleCourse->name }}</h2></a>
           <a href="/course_videos/<?= $singleCourse->id; ?>"><button class="btn btn-danger">Continue to Lecture</button></a>
           <div class="rating-holder">
@@ -73,8 +73,8 @@
                 <?php $CommentCount = DB::table('comments')->WHERE('course_id', $singleCourse->id)->whereNull('deleted_at')->count(); ?>
                 <li><strong class="element-block text-left subtitle fw-normal">(<span class="countComment">{{ $CommentCount }}</span> Reviews)</strong></li>
               </ul>
-           </div>
-         </div><!-- /.course-description -->
+          </div>
+        </div><!-- /.course-description -->
        </div>
      </div><!-- /.container -->
    </div><!-- /.top_header -->

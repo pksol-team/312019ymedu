@@ -131,19 +131,6 @@
    }
    ?>
 <!-- two columns -->
-
-@if (Session::has('message'))
-
-<div class="row" style="margin-top: 15px; margin-bottom: -56px;">
-    <div class="col-sm-5 col-sm-offset-3">
-        <div class="panel panel-danger">
-            <div class="panel-heading panel-heading-custom">
-                <h3 class="panel-title" style="text-align: center;">{!! session('message') !!}</h3>
-            </div>
-        </div>
-    </div>
-</div>  
-@endif
 <div id="two-columns" class="container">
    <div class="row">
       <!-- content -->

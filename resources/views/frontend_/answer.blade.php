@@ -139,7 +139,7 @@
                           </div>
                        </div>
                        <div class="question-list-question--content--SEjFC question-overview--question-content--2M-k-">
-                          <div class="question_user"> {{ $AnswersUser->name }} <span>- {{ \Carbon\Carbon::parse($AllAnswer->created_at)->diffForHumans() }}</span>
+                          <div class="question_user"> {{ $User->name }} <span>- {{ \Carbon\Carbon::parse($AllAnswer->created_at)->diffForHumans() }}</span>
                           </div>
                           <div class="question-list-question--body--2v0oT">{!! $AllAnswer->answer !!}</div>
                        </div>

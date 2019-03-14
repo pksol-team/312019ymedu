@@ -51,10 +51,6 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127096773-1"></script>
 <!-- include jQuery -->
 <script src="/frontend/js/jquery.js"></script>
-
-
-<link rel="stylesheet" href="/frontend/css/style_course_video.css">
-<script src="/frontend/js/javascript_course_video.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
