@@ -57,35 +57,9 @@ class IndexController extends Controller
 		return view('frontend.single', compact('title', 'singleCourse'));
 	}
 
-	// public function buyNow($course_id, $user_id)
-	// {
- //        $singleCourse = DB::table('all_courses')->WHERE('id', $course_id)->first();
- //        if ($singleCourse->purchased_by == '[]') {
- //        	$user = '["'.$user_id.'"]';
- //        } else {
- //        	$user = trim($singleCourse->purchased_by, ']');
- //        	$user .= ',"'.$user_id.'"]';
- //        }
- //    	$UpdatePur = ['purchased_by' => $user];
- //        $done = DB::table('all_courses')->where('id', $course_id)->update($UpdatePur);
-        
- //        DB::table('payments')->insert([
-	// 		'user_id' => $user_id,
-	// 		'course_id' => $course_id,
-	// 		'amount' => $singleCourse->price,
-	// 		'instructor' => $singleCourse->user_id
-	// 	]);
- //        return redirect('/single_course/'.$course_id);
-	// }
-
 	public function buyNow($course_id, $user_id)
 	{
-	    $status = $_GET['payment_status'];
-		if($status == 'Failed'){
-		     \Session::flash('message','Payment Failed');
-		     return redirect('/single_course/'.$course_id);
-		}else{
-		    $singleCourse = DB::table('all_courses')->WHERE('id', $course_id)->first();
+        $singleCourse = DB::table('all_courses')->WHERE('id', $course_id)->first();
         if ($singleCourse->purchased_by == '[]') {
         	$user = '["'.$user_id.'"]';
         } else {
@@ -95,16 +69,13 @@ class IndexController extends Controller
     	$UpdatePur = ['purchased_by' => $user];
         $done = DB::table('all_courses')->where('id', $course_id)->update($UpdatePur);
         
-        
         DB::table('payments')->insert([
 			'user_id' => $user_id,
 			'course_id' => $course_id,
 			'amount' => $singleCourse->price,
 			'instructor' => $singleCourse->user_id
 		]);
-        return redirect('/single_course/'.$course_id);    
-		}
-        
+        return redirect('/single_course/'.$course_id);
 	}
 
 	public function profile()
@@ -459,23 +430,22 @@ class IndexController extends Controller
 	public function createRequest(request $request){
 
 		if($request->amount > 0){
+
 			$ch = curl_init();
 
-			// curl_setopt($ch, CURLOPT_URL, 'https://www.instamojo.com/api/1.1/payment-requests/');
-			curl_setopt($ch, CURLOPT_URL, 'https://test.instamojo.com/api/1.1/payment-requests/');
+			curl_setopt($ch, CURLOPT_URL, 'https://www.instamojo.com/api/1.1/payment-requests/');
 			curl_setopt($ch, CURLOPT_HEADER, FALSE);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 			curl_setopt($ch, CURLOPT_HTTPHEADER,
-			            array("X-Api-Key:test_fa70c006a6d49ec49f17abc46c6",
-			                  "X-Auth-Token:test_fce832d9fbca79e05c12e36551b"));
+			            array("X-Api-Key:f020818fc4949ccf9b8e816cd37e281e",
+			                  "X-Auth-Token:4839231580e63cd542b29ae45d3c682e"));
 			$payload = Array(
 			    'purpose' => $request->purpose,
 			    'amount' => $request->amount,
 			    'phone' => null,
 			    'buyer_name' => $request->name,
-			    // 'redirect_url' => 'http://instamojo.dev/redirect/',
-			    'redirect_url' => 'http://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id,
+			    'redirect_url' => 'https://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id,
 			    'send_email' => false,
 			    'webhook' => 'http://instamojo.dev/webhook/',
 			    'send_sms' => false,
@@ -488,11 +458,10 @@ class IndexController extends Controller
 			curl_close($ch); 
 
 			 $data = json_decode($response, true);
-
+			 // var_dump($data);
 			return redirect($data['payment_request']['longurl']);
-			
 		}else{
-				return redirect('http://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id.'?payment_status=success');
+			return redirect('https://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id);
 		}
 
 	}
