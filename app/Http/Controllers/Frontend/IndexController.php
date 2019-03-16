@@ -38,8 +38,12 @@ class IndexController extends Controller
 	{
 		$title = 'Home';
         $haveCourses = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->paginate(9);
+        $coursesCount = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->count();
         $haveCategories = DB::table('categories')->WHERE('parent_id', '!=', '[]')->orderBy('created_at', 'DESC')->get();
-		return view('frontend.index', compact('title', 'haveCourses', 'haveCategories'));
+
+        
+
+		return view('frontend.index', compact('title', 'haveCourses', 'haveCategories', 'coursesCount'));
 	}
 
 	public function search($query)

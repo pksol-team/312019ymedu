@@ -24,9 +24,9 @@
     
         <h1 class="nameUser">{{ Auth::user()->name }}</h1>
         <h2 class="courseHead_1">You Have SuceesFull Completed</h2>
-      <h2 class="courseHead_2">{{ $getCourse->name }} <?php echo "Course In Frankeey.com";?></h2>
-      <h3 style="color:white;" class="certificateDate">{{ date('d/m/Y') }}</h3>
-    <img class="cerImage" src="/frontend/images/crtifict.jpg">
+	    <h2 class="courseHead_2">{{ $getCourse->name }} <?php echo "Course In Frankeey.com";?></h2>
+	    <h3 style="color:white;" class="certificateDate">{{ date('d/m/Y') }}</h3>
+		<img class="cerImage" src="/frontend/images/crtifict.jpg">
 </div>
     
 <!--</div>-->
@@ -38,27 +38,74 @@
 
  function vimeoVideoDuration($video_url) {
      
+     
+     
+     
      $url = file_get_contents('https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/' . $video_url);
-           $duration =  json_decode($url)->duration;
+	            	 $duration =  json_decode($url)->duration;
 
-           $time = explode(":", gmdate("H:i:s", $duration));
+	            	 $time = explode(":", gmdate("H:i:s", $duration));
+	            	 
+	            	 $hours = $time[0];
+	            	 $minutes = $time[1];
+	            	 $seconds = $time[2];
+	            	  if($hours>0 && $hours<=9){
+	              $hours = '0'.$hours.':';
+	            }
+
+	            if($hours == 0){
+	              $hours = "";
+	            }
+	            
+	            return "$hours$minutes:$seconds";
+
+        //     $video_id = (int)substr(parse_url($video_url, PHP_URL_PATH), 1);
+
+        //     $json_url = 'http://vimeo.com/api/v2/video/' . $video_id . '.xml';
+            
            
-           $hours = $time[0];
-           $minutes = $time[1];
-           $seconds = $time[2];
-            if($hours>0 && $hours<=9){
-          $hours = '0'.$hours.':';
-        }
+        //     $ch = curl_init($json_url);
+        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //     curl_setopt($ch, CURLOPT_HEADER, 0);
+        //     $data = curl_exec($ch);
+        //     curl_close($ch);
+        //     $data = new SimpleXmlElement($data, LIBXML_NOCDATA);
 
-        if($hours == 0){
-          $hours = "";
-        }
-        
-        return "$hours$minutes:$seconds";
+        //     if (!isset($data->video->duration)) {
+        //         return null;
+        //     }
 
-   }
+        //     $duration = $data->video->duration;
+
+        //     // return $duration; // in seconds
+        //     $seconds = $duration;
+        //     $hours = floor($seconds / 3600);
+        //     $seconds -= $hours * 3600;
+        //     $minutes = floor($seconds / 60);
+        //     $seconds -= $minutes * 60;
+            
+        //   /* if($minutes>0 && $minutes<=9){
+        //       $minutes = '0'.$minutes;
+        //     }*/
+        //     if($hours>0 && $hours<=9){
+        //       $hours = '0'.$hours.':';
+        //     }
+        //     if($seconds>0 && $seconds<=9){
+        //       $seconds = '0'.$seconds;
+        //     }
+
+        //     if($hours == 0){
+        //       $hours = "";
+        //     }
+            
+        //     return "$hours$minutes:$seconds"; //24:0:1
+         }
+
+
 
 ?>
+
+
 <main id="main">
    <!-- breadcrumb nav -->
    <nav class="breadcrumb-nav">
@@ -100,76 +147,164 @@
 <div id="two-columns" class="container">
    <div class="row">
       <!-- content -->
-    <div class="col-lg-12 col-md-12 aligncenter content-aligncenter">
-      <div class="widget widget_intro">
-      <h1 class="content-h1 fw-semi">{{ $singleCourse->name }}</h1>
-               <!-- view header -->
-      <div class="aligncenter overlay">
-          <?php 
-             $extensions = ['avi', 'flv', 'wmv', 'mov', 'mp4', '3gp', 'webm'];
-
-             // Vimeo Work Start
-             $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
-             $CourseVimeoLink = $CourseIntroGet->vimeo_link;
-             $CourseUploadVideo = $CourseIntroGet->file;
-             if(empty($CourseVimeoLink)){
-                $VideosTrimed = trim($CourseUploadVideo, '[]');
-           if ($VideosTrimed != '') {
-              if (strlen($VideosTrimed) < 7) {
-                 $exploded_Videos = explode('""', $VideosTrimed);
-              }else {
-                 $exploded_Videos = explode(',', $VideosTrimed);
-              }
-              $index = 0;
-              foreach ($exploded_Videos as $exploded_Video) {
-                $get_Video = DB::table('uploads')->WHERE('id', trim($exploded_Video, '""'))->first(); 
-                $CourseVideo = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
-              }
-             }
-          }else{
-             $CourseVideo = "https://vimeo.com/".$CourseVimeoLink;
-          } 
-       // INtro Image
-           $CourseImageGet = DB::table('uploads')->WHERE('id', $singleCourse->image)->first();
-                     if ($CourseImageGet) {
-                        $CourseImage = "/files/$CourseImageGet->hash/$CourseImageGet->name";
-                     }else {
-                        $CourseImage = "/frontend/images/Image_not.jpg";
-                     }
-
-                     ?>
-
-                     <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-          <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-          @section('image') <?= $CourseImage; ?>@stop
-          
-       </div>
-
-      </div>
-     </div> 
-   </div>
       <article id="content" class="col-xs-12 col-md-9">
          <!-- content h1 -->
          
-         <!-- <h1 class="content-h1 fw-semi">{{ $singleCourse->name }}</h1> -->
+         <h1 class="content-h1 fw-semi">{{ $singleCourse->name }}</h1>
          <!-- view header -->
+         <header class="view-header row">
+            <div class="col-xs-12 col-sm-9 d-flex">
+               <div class="d-col">
+                  <!-- post author -->
+                  <div class="post-author">
+                     <div class="alignleft no-shrink rounded-circle">
+                        <?php
+                        
+                          $Usser = DB::table('employees')->WHERE('id', $singleCourse->user_id)->first();
+                          $UserImageGet = DB::table('uploads')->WHERE('id', $Usser->image)->first();
+                          if ($UserImageGet) {
+                           // $UserImage = "/frontend/images/$UserImageGet->name";
+                            $UserImage = "/files/$UserImageGet->hash/$UserImageGet->name";
+                          }else {
+                            $UserImage = "/frontend/images/defaultImage.jpg";
+                          } ?>
+                        <img src="{{ $UserImage }}" class="rounded-circle" alt="image description">
+                     </div>
+                     <div class="description-wrap">
+                        <h2 class="author-heading"><a href="#">Instructor</a></h2>
+                        <h3 class="author-heading-subtitle text-uppercase">{{ $Usser->name }}</h3>
+                     </div>
+                  </div>
+               </div>
+               <div class="d-col">
+                  <!-- post author -->
+                  <div class="post-author">
+                     <div class="alignleft no-shrink icn-wrap">
+                        <i class="far fa-bookmark"></i>
+                     </div>
+                     <div class="description-wrap">
+                        <h2 class="author-heading"><a href="#">Category</a></h2>
+                        <h3 class="author-heading-subtitle text-uppercase">
+                           <?php
+                              $categoryTrimed = trim($singleCourse->category, '[]');
+                              if ($categoryTrimed != '') {
+                                 if (strlen($categoryTrimed) < 7) {
+                                      $exploded_category = substr($categoryTrimed, 1, -1);
+                                      $get_slider_image = DB::table('categories')->WHERE('id', $exploded_category)->first();
+                                      echo $get_slider_image->name;
+                                 }else {
+                                 $exploded_categories = explode(',', $categoryTrimed);
+                                 $categories = '';
+                                 foreach ($exploded_categories as $exploded_category) {
+                                   $get_slider_image = DB::table('categories')->WHERE('id', trim($exploded_category, '""'))->first();
+                                   $categories .= '"'.$get_slider_image->name.'", ';
+                                 }
+                                   echo substr($categories, 0, -2);
+                                 }
+                              }
+                           ?>
+                        </h3>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+               <div class="rating-holder">
+                  <ul class="star-rating list-unstyled justify-end">
+                     <?php
+                                $total_stars = $singleCourse->add_stars;
+                                $unfillStarts = 5-$singleCourse->add_stars;
+                                if($total_stars>0){
+                                    for($i = 0; $i < $total_stars; $i++){
+                                        if($i < 5){
+                                       ?>
+                                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                        <?php
+                                        }
+                                        
+                                    }
+                                }
+                                
+                                if($unfillStarts > 0){
+                                    for($i = 0; $i < $unfillStarts; $i++){
+                                        ?>
+                                            <li><span class="far fa-star"><span class="sr-only">star</span></span></li>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                  </ul>
+                  <?php
+                
+                  $CommentCount = DB::table('comments')->WHERE('course_id', $singleCourse->id)->whereNull('deleted_at')->count();
+      
+
+                  ?>
+                  <strong class="element-block text-right subtitle fw-normal">
+                    (<span class="countComment">{{ $CommentCount }}</span> Reviews)</strong>
+               </div>
+            </div>
+         </header>
+         
+         
          <!--Payment form -->
          
-            <form method="POST" action="/createRequest" style="display: none;">
-                {{ csrf_field() }} 
-                
-                <input id="buyer_name" type="text" class="form-control" name="buyer_name" value="{{ $userName }}" required>
-                <input id="user_id" type="text" class="form-control" name="user_id" value="{{ $userId }}" required>
-                <input id="course_id" type="text" class="form-control" name="course_id" value="{{ $singleCourse->id }}" required>
-                <input id="amount" type="number" class="form-control" name="amount" value="{{ $singleCourse->price }}" required>
-                <input id="email" type="email" class="form-control" name="email" value="{{ $userEmail }}" required>
-                <input id="purpose" type="text" class="form-control" name="purpose" value="{{ $singleCourse->name }}" required>
-                <button type="submit" class="submitRequest" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button>
-            </form> 
+                        <form method="POST" action="/createRequest" style="display: none;">
+                            {{ csrf_field() }} 
+                            
+                            <input id="buyer_name" type="text" class="form-control" name="buyer_name" value="{{ $userName }}" required>
+                            <input id="user_id" type="text" class="form-control" name="user_id" value="{{ $userId }}" required>
+                            <input id="course_id" type="text" class="form-control" name="course_id" value="{{ $singleCourse->id }}" required>
+                            <input id="amount" type="number" class="form-control" name="amount" value="{{ $singleCourse->price }}" required>
+                            <input id="email" type="email" class="form-control" name="email" value="{{ $userEmail }}" required>
+                            <input id="purpose" type="text" class="form-control" name="purpose" value="{{ $singleCourse->name }}" required>
+                            <button type="submit" class="submitRequest" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button>
+                        </form> 
+         
          
          <div class="aligncenter content-aligncenter">
             <section class="widget widget_intro">
-               <!-- <h3>Course Intro</h3> -->
+               <h3>Course Intro</h3>
+               <div class="aligncenter overlay">
+                  <?php 
+                     $extensions = ['avi', 'flv', 'wmv', 'mov', 'mp4', '3gp', 'webm'];
+
+                     // Vimeo Work Start
+                     $CourseIntroGet = DB::table('videos')->WHERE('id', $singleCourse->intro)->first();
+                     $CourseVimeoLink = $CourseIntroGet->vimeo_link;
+                     $CourseUploadVideo = $CourseIntroGet->file;
+                     if(empty($CourseVimeoLink)){
+                        $VideosTrimed = trim($CourseUploadVideo, '[]');
+                   if ($VideosTrimed != '') {
+                      if (strlen($VideosTrimed) < 7) {
+                         $exploded_Videos = explode('""', $VideosTrimed);
+                      }else {
+                         $exploded_Videos = explode(',', $VideosTrimed);
+                      }
+                      $index = 0;
+                      foreach ($exploded_Videos as $exploded_Video) {
+                        $get_Video = DB::table('uploads')->WHERE('id', trim($exploded_Video, '""'))->first(); 
+                        $CourseVideo = '/files/'.$get_Video->hash.'/'.$get_Video->name.'';
+                      }
+                     }
+                  }else{
+                     $CourseVideo = "https://vimeo.com/".$CourseVimeoLink;
+                  } 
+               // INtro Image
+                   $CourseImageGet = DB::table('uploads')->WHERE('id', $singleCourse->image)->first();
+                             if ($CourseImageGet) {
+                                $CourseImage = "/files/$CourseImageGet->hash/$CourseImageGet->name";
+                             }else {
+                                $CourseImage = "/frontend/images/Image_not.jpg";
+                             }
+
+                             ?>
+
+                             <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
+                  <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
+                  @section('image') <?= $CourseImage; ?>@stop
+                  
+               </div>
                <?php
              
                   if ($userId != Null) {
@@ -398,14 +533,7 @@
             $comments_id =  DB::table('comments')->whereNull('deleted_at')->WHERE('course_id', $course_id)->orderBy('id','DESC')->get();
 
             if (!empty($comments_id)) { ?>
-              <div class="review">
-             <h2 class="h6 fw-semi currentComment">Reviews</h2>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-             </div>
+             <h3 class="h6 fw-semi currentComment">Student's Feedback</h3>
             <?php foreach ($comments_id as $comment) { ?>
                   <div class="post-author">
                      <div class="alignleft no-shrink rounded-circle">
@@ -424,10 +552,6 @@
                      <div class="description-wrap">
                         <h2 class="author-heading"><b>{{ $commented_user_image->name }}</b> {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</h2>
                         <h3 class="author-heading-subtitle">{{ $comment->user_comments }}</h3>
-                     </div>
-                     <div class="description-wrap-message">
-                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, est porro veniam qui voluptatibus in  </p>
-
                      </div>
                   </div> 
                   <?php   
@@ -454,9 +578,9 @@
       <!-- sidebar -->
       <aside class="col-xs-12 col-md-3" id="sidebar">
       <!-- widget tags -->
-      <!-- <nav class="widget widget_tags">
+      <nav class="widget widget_tags">
       <h3>Tags</h3>
-      
+      <!-- tag clouds -->
       <ul class="list-unstyled tag-clouds font-lato">
          @php
        
@@ -477,159 +601,202 @@
     
         @endphp
       </ul>
-      </nav> -->
+      </nav>
         
-      <section class="widget widget_box widget_course_select">
-        <header class="widgetHead text-center bg-theme">
-
-         <h3 class="text-uppercase text-white">Price: <?= $singleCourse->price ?> /-</h3>
-         </header>
-        <!-- <strong class="price element-block font-lato" data-label="price:"><?= $singleCourse->price ?> /-</strong> -->
-          <ul class="list-unstyled font-lato">
-              <li>
-                <i class="far fa-user icn no-shrink"></i> 
-                  {{-- @php
-                    $students = trim($singleCourse->purchased_by, '[]');
-                       @endphp
-                       @if($students == '')
-                        0
-                       @else
-                       {{ count(explode(',', $students)) }}
-                         @endif --}}
-                       {{ $singleCourse->students}}
-                     Students</li>
-              <li><i class="fas fa-bullhorn icn no-shrink"></i> Access on mobile and TV </li>
-              <li>
-                <i class="far fa-play-circle icn no-shrink"></i>
-                 {{-- @php
-                      $arrayVideo = trim($singleCourse->videos, '[]');          
-                      $Videos =  DB::table('videos')->WHERE('id', $singleCourse->image)->first();
-                      $totalSeconds = 0;
-                      $secondsFile = 0;
-                      $secondsVimeo = 0;
-                      
-                            
-                      $arrayVideo = trim($singleCourse->videos, '[]');
-                        if ($arrayVideo != '') {
-                            $VideosExplod = explode(',', $arrayVideo);
-                          foreach ($VideosExplod as $VideoExplod) {
-                            $get_Video = DB::table('videos')->WHERE('id', trim($VideoExplod, '""'))->first();
-                            if($get_Video->vimeo_link == 0){
-                                        
-                              $getVideo = DB::table('uploads')->WHERE('id', $get_Video->file)->first();
-                              
-                              $video_filehave = (storage_path().'/uploads/'.$getVideo->name);
-                              
-                              $getID3 = new getID3;
-                              
-                              $video_file = $getID3->analyze($video_filehave);
-                              
-                              if(isset($video_file['playtime_string'])) {
-                                  $duration_string = $video_file['playtime_string'];
-                                  // Converting time into seconds
-                                  $timeFile = explode(':', $duration_string);
-                                  $fileDurationLength = count($timeFile);
-                                  if($fileDurationLength < 2){
-
-                                    $hoursTOsec = $timeFile[0]*60*60;
-                                    $mintTOsec = $timeFile[1]*60;
-                                    $sec = $timeFile[3];
-
-                                  }
-                                  else{
-                                    $mintTOsec = $timeFile[0]*60;  
-                                    $hoursTOsec = 0;   
-                                    $sec = $timeFile[1];
-                                  }
-                                 
-
-                                  $secondsFile = $hoursTOsec+$mintTOsec+$sec;
-                              }
-                            }
-                            else{
-                                     
-                            $headers = get_headers('https://vimeo.com/'.$get_Video->vimeo_link);
-                            if(substr($headers[0], 9, 3) == '200'){   
-                              $timeVimeo = explode(':',vimeoVideoDuration('https://vimeo.com/'.$get_Video->vimeo_link));
-                              
-                             $vimeoDurationLength = count($timeVimeo);
-                                  if($vimeoDurationLength < 2){
-
-                                    $hoursTOsecV = $timeVimeo[0]*60*60;
-                                    $mintTOsecV = $timeVimeo[1]*60;
-                                    $secV = $timeVimeo[3];
-
-                                  }
-                                  else{
-                                   $mintTOsecV = $timeVimeo[0]*60;  
-                                    $hoursTOsecV = 0;   
-                                    $secV = $timeVimeo[1];
-                                  }
-
-                                 $secondsVimeo = $hoursTOsecV+$mintTOsecV+$secV;              
-                            }
-                            }
-
-                            $totalSeconds = $secondsVimeo + $secondsFile + $totalSeconds;
-                           }
-                         }
-                         echo gmdate("H:i:s", $totalSeconds);
-                    @endphp --}}
-                    {{ $singleCourse->course_duration}} Course duration
-                  </li>
-                  
-                   @if(Auth::guest()) 
-                   @else
-                  <?php
-                     if ($singleCourse->purchased_by != '[]') { 
-                            $arrayPurchased = explode(',', trim($singleCourse->purchased_by, "[]"));
-                            if (in_array('"'.$userId.'"', $arrayPurchased)) { 
-                                ?>
-                                  <li>
-                     <i class="far fa-address-card icn no-shrink"></i> 
-                         <!-- Certificate -->
-                           <div class="certificateButton">
-
-                             <a class="btn-Convert-Html2Image" href="#"><button class="certificate-btn" style="background: white; border: none;  color: rgba(0,0,0,0.6);">Get Certificate</button></a>
-
-                             <a class="scndBtn" href="#" style="display: none;"><button class="btn btn-success">Download</button></a>
-
-                           </div>
-                         
-                       {{-- Certificate of Completion --}}
-                  </li>
-                                <?php
-                            }
-                     }
-                  ?>
-                    @endif
-      
-      
-      
-      </ul>
-      </section>
+     
 
       <section class="widget widget_intro">
-         <article class="popular-post">
-                      <div class="aligncenter">
-                                   <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-                        <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-                        @section('image') <?= $CourseImage; ?>@stop
-                      </div>
-                      <div class="pp-post-bottim">
-                        <h3 class="post-heading text-center"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                        
-                      </div>
-                    </article>
+      <h3>Demo Of This Course</h3>
+      <div class="aligncenter overlay">
+
+      <?php
+
+        $getVideo = DB::table('videos')->WHERE('id', $singleCourse->demo_video)->first();
+
+        if($getVideo->vimeo_link == 0){
+          
+          $getVideoUploads = DB::table('uploads')->WHERE('id', $getVideo->file)->first();
+          
+          $demoVideo = '/files/'.$getVideoUploads->hash.'/'.$getVideoUploads->name.'';
+
+          $VideoImage = "<video src='".$demoVideo."' style='margin-bottom:-6px; width:100%'></video>";
+          
+        //   $getVideoimg = DB::table('uploads')->WHERE('id', $singleCourse->image)->first();
+
+        //   if ($getVideoimg) {
+            
+        //     $VideoImage = "/files/$getVideoimg->hash/$getVideoimg->name";
+        //   } 
+        //   else {
+          
+        //     $UserImage = "/frontend/images/defaultImage.jpg";
+          
+        //   }         
+
+            } 
+        else{
+            
+            $demoVideo = "https://player.vimeo.com/video/".$getVideo->vimeo_link;
+            
+            $headers = get_headers('https://vimeo.com/api/v2/video/'.$getVideo->vimeo_link.'.json');
+            if(substr($headers[0], 9, 3) != '200'){
+                $VideoImage = "<img src='/frontend/images/playvideoimage.png' alt='No Thumbnail'>";
+                
+            }
+            
+            else{
+                $vimeo_json_data = json_decode(file_get_contents('https://vimeo.com/api/v2/video/'.$getVideo->vimeo_link.'.json'));
+                
+                 $VideoImage = "<img src='".$vimeo_json_data[0]->thumbnail_large."' alt='No Thumbnail'>";
+                 
+                // $VideoImage = $vimeo_json_data[0]->thumbnail_large;
+                
+            }
+        }
+
+      ?> 
+
+
+      <a href="{{ $demoVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
+      <?php echo $VideoImage; ?>
+      <!--<img src="{{ $VideoImage }}" alt="No Thumbnail">-->
+      </div>
       </section>
       <!-- widget course select -->
+      <section class="widget widget_box widget_course_select">
+      <header class="widgetHead text-center bg-theme">
+      <h3 class="text-uppercase">Full Course In Tamil</h3>
+      </header>
+      <strong class="price element-block font-lato" data-label="price:"><?= $singleCourse->price ?> /-</strong>
+      <ul class="list-unstyled font-lato">
+      <li>
+        <i class="far fa-user icn no-shrink"></i> 
+       {{-- @php
+            $students = trim($singleCourse->purchased_by, '[]');
+        @endphp
+        @if($students == '')
+          0
+        @else
+          {{ count(explode(',', $students)) }}
+        @endif --}}
+        {{ $singleCourse->students}}
+      Students</li>
+      <li><i class="fas fa-bullhorn icn no-shrink"></i> Access on mobile and TV </li>
+      <li>
+        <i class="far fa-play-circle icn no-shrink"></i>
+       {{-- @php
+          $arrayVideo = trim($singleCourse->videos, '[]');          
+          $Videos =  DB::table('videos')->WHERE('id', $singleCourse->image)->first();
+          $totalSeconds = 0;
+          $secondsFile = 0;
+          $secondsVimeo = 0;
+          
+                
+          $arrayVideo = trim($singleCourse->videos, '[]');
+            if ($arrayVideo != '') {
+                $VideosExplod = explode(',', $arrayVideo);
+              foreach ($VideosExplod as $VideoExplod) {
+                $get_Video = DB::table('videos')->WHERE('id', trim($VideoExplod, '""'))->first();
+                if($get_Video->vimeo_link == 0){
+                            
+                  $getVideo = DB::table('uploads')->WHERE('id', $get_Video->file)->first();
+                  
+                  $video_filehave = (storage_path().'/uploads/'.$getVideo->name);
+                  
+                  $getID3 = new getID3;
+                  
+                  $video_file = $getID3->analyze($video_filehave);
+                  
+                  if(isset($video_file['playtime_string'])) {
+                      $duration_string = $video_file['playtime_string'];
+                      // Converting time into seconds
+                      $timeFile = explode(':', $duration_string);
+                      $fileDurationLength = count($timeFile);
+                      if($fileDurationLength < 2){
+
+                        $hoursTOsec = $timeFile[0]*60*60;
+                        $mintTOsec = $timeFile[1]*60;
+                        $sec = $timeFile[3];
+
+                      }
+                      else{
+                        $mintTOsec = $timeFile[0]*60;  
+                        $hoursTOsec = 0;   
+                        $sec = $timeFile[1];
+                      }
+                     
+
+                      $secondsFile = $hoursTOsec+$mintTOsec+$sec;
+                  }
+                }
+                else{
+                         
+                $headers = get_headers('https://vimeo.com/'.$get_Video->vimeo_link);
+                if(substr($headers[0], 9, 3) == '200'){   
+                  $timeVimeo = explode(':',vimeoVideoDuration('https://vimeo.com/'.$get_Video->vimeo_link));
+                  
+                 $vimeoDurationLength = count($timeVimeo);
+                      if($vimeoDurationLength < 2){
+
+                        $hoursTOsecV = $timeVimeo[0]*60*60;
+                        $mintTOsecV = $timeVimeo[1]*60;
+                        $secV = $timeVimeo[3];
+
+                      }
+                      else{
+                       $mintTOsecV = $timeVimeo[0]*60;  
+                        $hoursTOsecV = 0;   
+                        $secV = $timeVimeo[1];
+                      }
+
+                     $secondsVimeo = $hoursTOsecV+$mintTOsecV+$secV;              
+                }
+                }
+
+                $totalSeconds = $secondsVimeo + $secondsFile + $totalSeconds;
+               }
+             }
+             echo gmdate("H:i:s", $totalSeconds);
+        @endphp --}}
+        {{ $singleCourse->course_duration}} Course duration
+      </li>
       
-      <!-- <section class="widget">
+       @if(Auth::guest()) 
+       @else
+      <?php
+         if ($singleCourse->purchased_by != '[]') { 
+                $arrayPurchased = explode(',', trim($singleCourse->purchased_by, "[]"));
+                if (in_array('"'.$userId.'"', $arrayPurchased)) { 
+                    ?>
+                      <li>
+         <i class="far fa-address-card icn no-shrink"></i> 
+             <!-- Certificate -->
+               <div class="certificateButton">
+
+                 <a class="btn-Convert-Html2Image" href="#"><button class="certificate-btn" style="background: white; border: none;  color: rgba(0,0,0,0.6);">Get Certificate</button></a>
+
+                 <a class="scndBtn" href="#" style="display: none;"><button class="btn btn-success">Download</button></a>
+
+               </div>
+             
+           {{-- Certificate of Completion --}}
+      </li>
+                    <?php
+                }
+         }
+      ?>
+        @endif
+      
+     
+     
+      </ul>
+      </section>
+      <section class="widget">
         <h3>Related Courses</h3>
-      </section>  -->     
+      </section>      
       
 
-     <!--  <?php
+      <?php
         $VideosTrimed = trim($singleCourse->sidebar, '[]');
             if ($VideosTrimed != '') {
                $exploded_Videos = explode(',', $VideosTrimed);
@@ -715,49 +882,7 @@
             </div>
       <?php }
       ?>
-      -->
-           <section class="widget widget_intro">
-              <article class="popular-post">
-                           <div class="aligncenter">
-                              <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-                        <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-                        @section('image') <?= $CourseImage; ?>@stop
-                           </div>
-                           <div class="pp-post-bottim">
-                             <h3 class="post-heading text-center"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                             
-                           </div>
-                         </article>
-           </section>
-           <section class="widget widget_intro">
-              <article class="popular-post">
-                           <div class="aligncenter">
-                               <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-                        <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-                        @section('image') <?= $CourseImage; ?>@stop
-                           </div>
-                           <div class="pp-post-bottim">
-                             <h3 class="post-heading text-center"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                             
-                           </div>
-                         </article>
-           </section>
-           <section class="widget widget_intro">
-              <article class="popular-post">
-                           <div class="aligncenter">
-                            <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-                        <img src="{{ $CourseImage }}" alt="image description" class="CourseImage">     
-                        @section('image') <?= $CourseImage; ?>@stop
-                           </div>
-                           <div class="pp-post-bottim ">
-                             <h3 class="post-heading text-center"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                             
-                           </div>
-                         </article>
-           </section>
-       
-
-    </aside>
+      </aside>
       </div>
    </div>
    </main>  
