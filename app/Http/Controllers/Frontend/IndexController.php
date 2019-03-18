@@ -38,7 +38,7 @@ class IndexController extends Controller
 	{
 		$title = 'Home';
         $haveCourses = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->paginate(9);
-        $coursesCount = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->count();
+        $coursesCount = DB::table('all_courses')->whereNull('deleted_at')->WHERE('status', 'Active')->count();
         $haveCategories = DB::table('categories')->WHERE('parent_id', '!=', '[]')->orderBy('created_at', 'DESC')->get();
 
         

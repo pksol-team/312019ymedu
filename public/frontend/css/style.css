@@ -9988,3 +9988,7 @@ div#wrapper {
     width: 50%;
   }
 }
+
+.aligncenter a{
+  text-decoration: none;
+}

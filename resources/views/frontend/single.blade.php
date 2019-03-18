@@ -353,6 +353,39 @@
                 if (in_array('"'.$userId.'"', $arrayPurchased)) { 
               ?>
               
+
+               <div class="review">
+              <h2 class="h6 fw-semi">Reviews</h2>
+              <?php
+                         $total_stars = $singleCourse->add_stars;
+                         $unfillStarts = 5-$singleCourse->add_stars;
+                         if($total_stars>0){
+                             for($i = 0; $i < $total_stars; $i++){
+                                 if($i < 5){
+                                ?>
+               <span class="fa fa-star checked"></span>
+
+                                     {{-- <span class="fas fa-star"><span class="sr-only">star</span></span> --}}
+                                 <?php
+                                 }
+                                 
+                             }
+                         }
+                         
+                         if($unfillStarts > 0){
+                             for($i = 0; $i < $unfillStarts; $i++){
+                                 ?>
+                                 {{-- new --}}
+                                 {{-- <span class="fa fa-star" style="color: white;"></span> --}}
+                                     <span class="far fa-star" style="color: #ffa300;"><span class="sr-only" >star</span></span>
+                                 <?php
+                             }
+                         }
+                     ?>
+              </div>
+
+            
+
               <h2>Reviews</h2>
          @if(Auth::guest()) 
              @else
@@ -391,21 +424,15 @@
                 }
              }
              ?>
-          
+            
+
              <div class="main_comment">      
          <?php
             $course_id = $singleCourse->id;
             $comments_id =  DB::table('comments')->whereNull('deleted_at')->WHERE('course_id', $course_id)->orderBy('id','DESC')->get();
 
             if (!empty($comments_id)) { ?>
-              <div class="review">
-             <h2 class="h6 fw-semi currentComment">Reviews</h2>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-             </div>
+             <h3 class="h6 fw-semi currentComment">Student's Feedback</h3>
             <?php foreach ($comments_id as $comment) { ?>
                   <div class="post-author">
                      <div class="alignleft no-shrink rounded-circle">
@@ -419,16 +446,17 @@
                                 $UserImage = "/frontend/images/defaultImage.jpg";
                               }?>
                               <img src="{{ $UserImage }}" class="rounded-circle" alt="image description">
-                         <?php }?>
+                         
                      </div>
                      <div class="description-wrap">
-                        <h2 class="author-heading"><b>{{ $commented_user_image->name }}</b> {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</h2>
-                        <h3 class="author-heading-subtitle">{{ $comment->user_comments }}</h3>
+                        <h2 class="author-heading"><b>{{ $commented_user_image->name }}</b> <br>
+                          {{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</h2>
+                        {{-- <h3 class="author-heading-subtitle">{{ $comment->user_comments }}</h3> --}}
                      </div>
                      <div class="description-wrap-message">
-                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, est porro veniam qui voluptatibus in  </p>
-
+                         <p>{{ $comment->user_comments }}</p>        
                      </div>
+                     <?php }?>
                   </div> 
                   <?php   
                 }
@@ -454,7 +482,7 @@
       <!-- sidebar -->
       <aside class="col-xs-12 col-md-3" id="sidebar">
       <!-- widget tags -->
-      <!-- <nav class="widget widget_tags">
+      <nav class="widget widget_tags">
       <h3>Tags</h3>
       
       <ul class="list-unstyled tag-clouds font-lato">
@@ -477,7 +505,7 @@
     
         @endphp
       </ul>
-      </nav> -->
+      </nav>
         
       <section class="widget widget_box widget_course_select">
         <header class="widgetHead text-center bg-theme">
@@ -609,7 +637,7 @@
       </ul>
       </section>
 
-      <section class="widget widget_intro">
+      <!--<section class="widget widget_intro">
          <article class="popular-post">
                       <div class="aligncenter">
                                    <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
@@ -621,7 +649,7 @@
                         
                       </div>
                     </article>
-      </section>
+      </section> -->
       <!-- widget course select -->
       
       <!-- <section class="widget">
@@ -629,7 +657,7 @@
       </section>  -->     
       
 
-     <!--  <?php
+      <?php
         $VideosTrimed = trim($singleCourse->sidebar, '[]');
             if ($VideosTrimed != '') {
                $exploded_Videos = explode(',', $VideosTrimed);
@@ -638,8 +666,10 @@
                  $get_Video = DB::table('videos')->WHERE('id', trim($exploded_Video, '""'))->first();
       ?>
       <section class="widget widget_intro">
-        <h3>{{ $get_Video->title }}</h3>
-        <div class="aligncenter overlay"> 
+        {{-- <h3>{{ $get_Video->title }}</h3> --}}
+        {{-- <div class="aligncenter overlay">  --}}
+          <article class="popular-post">
+                      <div class="aligncenter">
         
         
         <?php
@@ -658,14 +688,14 @@
             
             $headers = get_headers('https://vimeo.com/api/v2/video/'.$get_Video->vimeo_link.'.json');
             if(substr($headers[0], 9, 3) != '200'){
-                $VideoImage = "<img src='/frontend/images/playvideoimage.png' alt='No Thumbnail'>";
+                $VideoImage = "<img src='/frontend/images/playvideoimage.png' alt='No Thumbnail' class='CourseImage'>";
                 
             }
             
             else{
                 $vimeo_json_data = json_decode(file_get_contents('https://vimeo.com/api/v2/video/'.$get_Video->vimeo_link.'.json'));
                 
-                 $VideoImage = "<img src='".$vimeo_json_data[0]->thumbnail_large."' alt='No Thumbnail'>";
+                 $VideoImage = "<img src='".$vimeo_json_data[0]->thumbnail_large."' alt='No Thumbnail' class='CourseImage'>" ;
                  
                 
             }
@@ -673,14 +703,21 @@
 
       ?> 
 
-
-      <a href="{{ $relatedCourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
+      
+      <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
+                        {{-- <img src="{{ $CourseImage }}" alt="image description" class="CourseImage"> --}}
+      {{-- <a href="{{ $relatedCourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a> --}}
       <?php echo $VideoImage; ?>
         
         
         
         
         </div>
+        <div class="pp-post-bottim">
+          <h3 class="post-heading text-center"><a href="/single_course/54">{{ $get_Video->title }}</a></h3>
+          
+        </div>
+        </article>
       </section>
 
       <?php
@@ -715,8 +752,8 @@
             </div>
       <?php }
       ?>
-      -->
-           <section class="widget widget_intro">
+     
+          <!-- <section class="widget widget_intro">
               <article class="popular-post">
                            <div class="aligncenter">
                               <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
@@ -754,7 +791,8 @@
                              
                            </div>
                          </article>
-           </section>
+           </section> 
+         -->
        
 
     </aside>

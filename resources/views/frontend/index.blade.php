@@ -23,124 +23,144 @@
     @php
       if($coursesCount > 5){
           $total_slides = round($coursesCount/5);         
-        }
+        }else{
+          $total_slides = 1;
+        }        
     @endphp
+  
 
-    @for ($i = 0; $i < $total_slides ; $i++)
-     
+
+    @for ($i = 0; $i < $total_slides ; $i++)   
+   
+    <?php
+    $starting = $i*5;
     
 
-    <div class="item @if ($i == 0) active @endif">
+        $courses = DB::table('all_courses')->whereNull('deleted_at')->WHERE('status' , 'Active')->skip($starting)->take(5)->get();
 
-      <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-4 ">
-          <article class="popular-post">
-            <div class="aligncenter">
-              <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
-            </div>
-            <div class="pp-post-bottim">
-              <h3 class="post-heading"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                <footer class="post-foot gutter-reset">
-                  <ul class="star-rating list-unstyled">
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                  </ul>
-                </footer>
-            </div>
-          </article>            
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
-          <article class="popular-post">
-            <div class="aligncenter">
-              <a href="/single_course/54"><img src="/frontend/images/product2.png" alt="image description"></a>
-            </div>
-            <div class="pp-post-bottim">
-              <h3 class="post-heading"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                <footer class="post-foot gutter-reset">
-                  <ul class="star-rating list-unstyled">
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                  </ul>
-                </footer>
-            </div>
-          </article>            
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
-          <article class="popular-post">
-            <div class="aligncenter">
-              <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
-            </div>
-            <div class="pp-post-bottim">
-              <h3 class="post-heading"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                <footer class="post-foot gutter-reset">
-                  <ul class="star-rating list-unstyled">
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                  </ul>
-                </footer>
-            </div>
-          </article>          
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2">
-          
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
-          <article class="popular-post">
-            <div class="aligncenter">
-              <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
-            </div>
-            <div class="pp-post-bottim">
-              <h3 class="post-heading"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                <footer class="post-foot gutter-reset">
-                  <ul class="star-rating list-unstyled">
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                  </ul>
-                </footer>
-            </div>
-          </article>
-          
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
-          <article class="popular-post">
-            <div class="aligncenter">
-              <a href="/single_course/54"><img src="/frontend/images/product2.png" alt="image description"></a>
-            </div>
-            <div class="pp-post-bottim">
-              <h3 class="post-heading"><a href="/single_course/54">Android App Development In Tamil</a></h3>
-                <footer class="post-foot gutter-reset">
-                  <ul class="star-rating list-unstyled">
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
-                  </ul>
-                </footer>
-            </div>
-          </article>
-          
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2">
-          
-        </div>
-      </div>
+        if($courses){         
+            ?>
+            <div class="item @if ($i == 0) active @endif">
+            
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4 ">
+                  <article class="popular-post">
+                    <div class="aligncenter">
+                      <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
+                    </div>
+                    <div class="pp-post-bottim">
+                      <h3 class="post-heading"><a href="/single_course/54">{{ $courses[0]->name }}</a></h3>
+                        <footer class="post-foot gutter-reset">
+                          <ul class="star-rating list-unstyled">
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                          </ul>
+                        </footer>
+                    </div>
+                  </article>            
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                  <article class="popular-post">
+                    <div class="aligncenter">
+                      <a href="/single_course/54"><img src="/frontend/images/product2.png" alt="image description"></a>
+                    </div>
+                    <div class="pp-post-bottim">
+                      <h3 class="post-heading"><a href="/single_course/54">{{ $courses[1]->name }}</a></h3>
+                        <footer class="post-foot gutter-reset">
+                          <ul class="star-rating list-unstyled">
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                          </ul>
+                        </footer>
+                    </div>
+                  </article>            
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                  <article class="popular-post">
+                    <div class="aligncenter">
+                      <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
+                    </div>
+                    <div class="pp-post-bottim">
+                      <h3 class="post-heading"><a href="/single_course/54">{{ $courses[2]->name }}</a></h3>
+                        <footer class="post-foot gutter-reset">
+                          <ul class="star-rating list-unstyled">
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                          </ul>
+                        </footer>
+                    </div>
+                  </article>          
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+                  
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                  <article class="popular-post">
+                    <div class="aligncenter">
+                      <a href="/single_course/54"><img src="/frontend/images/watch_video.jpg" alt="image description"></a>
+                    </div>
+                    <div class="pp-post-bottim">
+                      <h3 class="post-heading"><a href="/single_course/54">{{ $courses[3]->name }}</a></h3>
+                        <footer class="post-foot gutter-reset">
+                          <ul class="star-rating list-unstyled">
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                          </ul>
+                        </footer>
+                    </div>
+                  </article>
+                  
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                  <article class="popular-post">
+                    <div class="aligncenter">
+                      <a href="/single_course/54"><img src="/frontend/images/product2.png" alt="image description"></a>
+                    </div>
+                    <div class="pp-post-bottim">
+                      <h3 class="post-heading"><a href="/single_course/54">{{ $courses[4]->name }}</a></h3>
+                        <footer class="post-foot gutter-reset">
+                          <ul class="star-rating list-unstyled">
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                            <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                          </ul>
+                        </footer>
+                    </div>
+                  </article>
+                  
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+                  
+                </div>
+              </div>
 
-    </div>
+            </div>
+            <?php
+          
+        }  
+        
+         
+    ?>
+
+
+   
+
     @endfor
         
 
