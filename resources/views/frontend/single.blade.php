@@ -80,7 +80,7 @@
       $userId = Null;
       $userName = Null;
       $userEmail = Null;
-      $buyNow = '/frontend/login';
+      $buyNow = '/frontend/login_student';
    }
    ?>
 <!-- two columns -->
@@ -164,7 +164,7 @@
                 <input id="amount" type="number" class="form-control" name="amount" value="{{ $singleCourse->price }}" required>
                 <input id="email" type="email" class="form-control" name="email" value="{{ $userEmail }}" required>
                 <input id="purpose" type="text" class="form-control" name="purpose" value="{{ $singleCourse->name }}" required>
-                <button type="submit" class="submitRequest" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button>
+                <button type="submit" class="submitRequest" style="vertical-align:middle"><span>Buy Now <strike>Rs.3999</strike>  Rs.<?= $singleCourse->price ?> /-</span></button>
             </form> 
          
          <div class="aligncenter content-aligncenter">
@@ -178,7 +178,7 @@
                      if ($GetCourse->purchased_by == '[]') { ?>
                      
                      <div style="text-align: center;">
-                        <a href="#" class="payment"><button class="buttonbuy" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button></a>
+                        <a href="#" class="payment"><button class="buttonbuy" style="vertical-align:middle"><span>Buy Now <strike>Rs.3999</strike>  Rs.<?= $singleCourse->price ?> /-</span></button></a>
                      </div>
                   <?php }
                      else {   
@@ -193,14 +193,14 @@
 
                       } else {?>
                         <div style="text-align: center;">
-                           <a href="#" class="payment"><button class="buttonbuy" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button></a>
+                           <a href="#" class="payment"><button class="buttonbuy" style="vertical-align:middle"><span>Buy Now <strike>Rs.3999</strike>  Rs.<?= $singleCourse->price ?> /-</span></button></a>
                         </div>
                   <?php                 }
                      }
                   } 
                   else { ?>
                      <div style="text-align: center;">
-                        <a href="<?= $buyNow; ?>" >   <button class="buttonbuy" style="vertical-align:middle"><span>Buy Now Rs.<?= $singleCourse->price ?> /-</span></button></a>
+                        <a href="<?= $buyNow; ?>" >   <button class="buttonbuy" style="vertical-align:middle"><span>Buy Now <strike>Rs.3999</strike>  Rs.<?= $singleCourse->price ?> /-</span></button></a>
                      </div>
                <?php }
                
@@ -363,7 +363,7 @@
                              for($i = 0; $i < $total_stars; $i++){
                                  if($i < 5){
                                 ?>
-               <span class="fa fa-star checked"></span>
+                                  <span class="fa fa-star checked"></span>
 
                                      {{-- <span class="fas fa-star"><span class="sr-only">star</span></span> --}}
                                  <?php
@@ -381,7 +381,7 @@
                                  <?php
                              }
                          }
-                     ?>
+              ?>
               </div>
 
             
@@ -638,6 +638,7 @@
       </section>
 
       <!--<section class="widget widget_intro">
+      
          <article class="popular-post">
                       <div class="aligncenter">
                                    <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
@@ -668,6 +669,7 @@
       <section class="widget widget_intro">
         {{-- <h3>{{ $get_Video->title }}</h3> --}}
         {{-- <div class="aligncenter overlay">  --}}
+        <div class="shadowss"> 
           <article class="popular-post">
                       <div class="aligncenter">
         
@@ -704,9 +706,7 @@
       ?> 
 
       
-      <a href="{{ $CourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
-                        {{-- <img src="{{ $CourseImage }}" alt="image description" class="CourseImage"> --}}
-      {{-- <a href="{{ $relatedCourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a> --}}
+      <a href="{{ $relatedCourseVideo }}" class="btn-play far fa-play-circle lightbox fancybox.iframe"></a>
       <?php echo $VideoImage; ?>
         
         
@@ -717,7 +717,7 @@
           <h3 class="post-heading text-center"><a href="/single_course/54">{{ $get_Video->title }}</a></h3>
           
         </div>
-        </article>
+        </article></div>
       </section>
 
       <?php

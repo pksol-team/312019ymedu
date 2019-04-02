@@ -1,0 +1,431 @@
+/* Big tablet to 1200px(widths smaller than the 1140px row)*/
+@media only screen and (max-width: 1200px){
+   
+    .hero-text-box {
+    
+    position: absolute;
+    width: 100%;
+    padding: 0.2;
+  }
+    
+    .row { padding: 0.2;}
+    
+
+   .offerDesc h4 {
+    margin-left: 40px;
+   
+    font-weight: 400;
+    font-size: 100%;
+    margin-bottom: 2%;
+
+}
+
+.offerDesc p {
+     font-weight: 400;
+     font-size: 110%;
+     margin-bottom: 2%;
+     margin-left: 40px;
+}
+
+.offerDesc li {
+     font-weight: 300;
+     font-size: 100%;
+     margin-bottom: 15px;
+     list-style: none;
+     margin-left: 40px;
+}
+
+}
+
+
+/*Small tablet to big tablet: from 768px to 1023px*/
+@media only screen and (max-width: 1023px){
+    
+    body { font-size: 17px; }
+    section { padding: 60px 0; }
+    
+    .long-para {
+    width: 55%;
+    text-transform: uppercase;
+    line-height: 145%;
+    text-align: center;
+    
+}
+    
+   .hero-text-box {
+    
+    position: absolute;
+    width: 90%;
+    padding: 0.2;
+  }
+    
+    .row { padding: 0.2;}
+
+ .menu  {
+    
+    float: right;
+    margin-top: 55px;
+    margin-right: 15px;
+    list-style: none;
+    
+}
+
+.logo {
+    
+    height: 20%;
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    background: #fff;
+    
+}
+    
+    section {
+    padding: 0px 0;
+}
+    
+    .steps-box:first-child {
+    
+    margin-top: 15px;
+    }
+        
+   .steps-box:last-child {
+    
+    margin-top: 15px;
+   
+}
+    .app-screen { width: 50%; }
+    
+
+
+.app-info { margin-right: 10px; }
+
+.app-info div {
+    
+    height: 48px;
+    width: 48px;
+    font-size: 120%;
+    
+    
+}
+    .city-feature { font-size: 85%; }
+   
+    
+    .city h4 {
+    font-size: 100%;
+    margin-left: 5%;
+}
+    
+    .icon-small {
+        margin-top: -5px;
+        margin-right: 0px;
+    }
+    
+    .plan-box {
+        width: 100%;
+        margin-left: 0%;
+    }
+    
+.plan-price {
+    font-size: 250%;}
+
+
+.plan-box ul { font-size: 15px; }
+    
+    .contact-form {
+        width: 110%;
+        margin-bottom: 35px;
+       }
+
+    .videoa2 {
+    font-weight: 400;
+    font-size: 100%;
+    margin-top: auto;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: #000;
+}
+  .videoab {
+   margin-top: auto;
+    margin-left: 100px;
+   margin-bottom: 10px;
+}
+
+   .videoa1 {
+   display: none;
+}
+  .videoa {
+   display: none;
+}
+
+
+
+}
+
+/*Small phones to small tablets; from 481px to 767px */
+@media only screen and (max-width: 767px){
+    
+    body { font-size: 15px; }
+    section { padding: 30px 0; }
+
+    .row { padding: 0 4%; }
+    
+    .hero-text-box { 
+        padding: 0.3%;
+        width: 100%;
+        margin-left: 5px;
+    }
+    
+
+    
+    .col { 
+        width: 100%;
+        *margin: 0 0 4 0;
+    }
+    .menu { display: none; }
+    
+     .long-para {
+    width: 90%;
+    text-transform: uppercase;
+    line-height: 145%;
+    text-align: center;
+    
+    
+}
+    h1 { font-size: 180%; }
+    h2 { font-size: 130%; }
+    
+    .section-1 .long-para {
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+    
+    .box p {
+    font-size: 100%;
+    
+}
+ 
+
+    .section-2 {
+    margin-top: 20px;
+}
+   
+    section {
+    padding: 0px 0;
+}
+    
+    .steps-box:first-child {
+    
+    margin-top: 15px;
+    
+    }
+        
+   .steps-box:last-child {
+    
+    margin-top: 15px;
+   
+}
+    .app-screen { width: 40%; }
+    
+
+
+.app-info { margin-right: 10px; }
+
+.app-info div {
+    
+    height: 40px;
+    width: 40px;
+    font-size: 100%;
+    margin-right: 25px;
+    
+    
+}
+    
+    .app-info p {
+    margin-top: -15px;
+    
+    }
+    
+    .steps-box:first-child {
+    text-align: center;
+    padding-right: 3%;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    margin-left: 15px;
+}
+    
+    .steps-box:last-child {
+    padding-left:  3%;
+    
+        
+    margin-bottom: 25px;
+}
+    
+    .btn-app img {
+    
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+    margin-top: -80px;    
+}
+    
+    .city-feature { 
+        font-size: 105%;
+        margin-bottom: 10px;
+    
+    }
+   
+    
+    .city h4 {
+    font-size: 120%;
+    margin-left: 0%;
+    margin-bottom: 3%;    
+}
+    
+    .icon-small {
+        margin-top: -5px;
+        margin-right: 0px;
+        font-size: 100%;
+    }
+    
+    cite {
+    font-size: 70%;
+    margin-top: 25px;
+    display: block;
+    
+}
+
+cite img {
+    height: 40px;
+    border-radius: 40%;
+    margin-right: 10px;
+    vertical-align: middle;
+    margin-bottom: 5%; 
+    
+}
+    
+    .contact-form {
+        width: 150%;
+        margin-left: -67px;
+        margin-bottom: 35px;
+        line-height: 40px;
+       }
+    
+    
+    .section-7 {
+        font-size: 90%;
+    }
+    
+     .section-7 h2 {
+         width: 100%;
+        font-size: 100%;
+    }
+    
+    .offerDesc h4 {
+    margin-left: 40px;
+   
+    font-weight: 400;
+    font-size: 100%;
+    margin-bottom: 2%;
+
+}
+
+.offerDesc p {
+     font-weight: 400;
+     font-size: 110%;
+     margin-bottom: 2%;
+     margin-left: 40px;
+}
+
+.offerDesc li {
+     font-weight: 300;
+     font-size: 100%;
+     margin-bottom: 15px;
+     list-style: none;
+     margin-left: 40px;
+}
+
+
+.btn-full:link, 
+.btn-full:visited, 
+input[type=submit] {
+    margin-left: 40px;
+}
+   
+.logo {
+    
+    height: 20%;
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    background: #fff;
+    
+}
+
+.js--wp-1 {
+    opacity: 0;
+    font-size: 25px;
+}
+
+       .videoa2 {
+    font-weight: 400;
+    font-size: 100%;
+    margin-top: auto;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: #000;
+}
+  .videoab {
+   margin-top: auto;
+    margin-left: -10px;
+   margin-bottom: -4px;
+}
+}
+
+
+
+
+/*Small phone: from 0 to 480px*/
+@media only screen and (max-width: 480px){
+    
+ .contact-form {
+        width: 150%;
+        margin-left: -67px;
+        margin-bottom: 35px;
+     line-height: 40px;
+       }
+    
+    
+    .section-7 {
+        font-size: 90%;
+    }
+    
+     .section-7 h2 {
+         width: 100%;
+        font-size: 100%;
+    }
+    
+       .videoa2 {
+    font-weight: 400;
+    font-size: 100%;
+    margin-top: auto;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: #000;
+}
+  .videoab {
+   margin-top: auto;
+    margin-left: -10px;
+   margin-bottom: -4px;
+}
+
+}
+
+
+

@@ -1,0 +1,2 @@
+0000.002 (0) Opened log file at time: Tue, 13 Nov 2018 06:33:07 +0000 on http://videos.frankeey.com
+0000.021 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.15.3 WP: 4.9.8 PHP: 5.6.38 (litespeed, Linux noc1-us.cpanelurl.com 3.10.0-714.10.2.lve1.5.17.1.el7.x86_64 #1 SMP Tue May 22 10:39:25 EDT 2018 x86_64) MySQL: 10.2.18-MariaDB WPLANG: en_US Server: LiteSpeed safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 8.8M | 10M) multisite: N openssl: OpenSSL 1.0.2p  14 Aug 2018 mcrypt: Y LANG:  ZipArchive::addFile: Y

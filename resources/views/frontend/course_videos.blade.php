@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>Videos</title>
     
      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -13,7 +14,8 @@
 <script src="/frontend/js/javascript_course_video.js"></script>
      <!------ Include the above in your HEAD tag ---------->
 
-   
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127096773-1"></script>
     <!------ Include the above in your HEAD tag ---------->
 
    <style>
@@ -30,7 +32,9 @@
     
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-              
+              <button type="button" class="hamburger is-closed right_cross" data-toggle="offcanvas" style="display: none;">
+                <i class="fa fa-list-ul" aria-hidden="true"></i>
+            </button>
             <ul class="nav sidebar-nav" id="datatable">
                  <li class="head">
                      <h2>Course Content</h2>
@@ -75,7 +79,7 @@
                    @endphp 
 
                 <li>
-                    <span class="sec">Section: {{ $index }}</span>
+                    <span class="sec">Video: {{ $index }}</span>
                     <a href="{{ $file }}" class="play_video caption_class" data-type="{{ $VideoType }}" data-href="{{ $file }}"data-title="{{ $title }}"><h3>{{ $VideoTitle }}</h3></a>
                     
                 </li>
@@ -92,7 +96,7 @@
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+            <button type="button" class="hamburger is-closed cross" data-toggle="offcanvas">
                 <i class="fa fa-list-ul" aria-hidden="true"></i>
             </button>
                     <div class="video purchased">
@@ -155,6 +159,11 @@
           }
       }
   }
+  window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-127096773-1');
 </script>
   </body>
   </html>

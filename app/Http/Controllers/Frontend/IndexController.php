@@ -33,19 +33,48 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     
+     
+     
+     public function index_current()
+	{
+		$title = 'Home';
+        $haveCourses = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->paginate(9);
+        $haveCategories = DB::table('categories')->WHERE('parent_id', '!=', '[]')->orderBy('created_at', 'DESC')->get();
+         $coursesCount = DB::table('all_courses')->whereNull('deleted_at')->WHERE('status', 'Active')->count();
+// 		return view('frontend.index', compact('title', 'haveCourses', 'haveCategories'));
+return view('frontend.index_current', compact('title', 'haveCourses', 'haveCategories', 'coursesCount'));
+	}
 	
 	public function index()
 	{
 		$title = 'Home';
         $haveCourses = DB::table('all_courses')->WHERE('status', 'Active')->orderBy('created_at', 'DESC')->paginate(9);
-        $coursesCount = DB::table('all_courses')->whereNull('deleted_at')->WHERE('status', 'Active')->count();
         $haveCategories = DB::table('categories')->WHERE('parent_id', '!=', '[]')->orderBy('created_at', 'DESC')->get();
-
-        
-
-		return view('frontend.index', compact('title', 'haveCourses', 'haveCategories', 'coursesCount'));
+         $coursesCount = DB::table('all_courses')->whereNull('deleted_at')->WHERE('status', 'Active')->count();
+// 		return view('frontend.index', compact('title', 'haveCourses', 'haveCategories'));
+return view('frontend.index', compact('title', 'haveCourses', 'haveCategories', 'coursesCount'));
 	}
 
+
+    public function search_course(request $search){
+        
+    //   echo $search->search;
+            $selectCourses = DB::table('all_courses')->whereNull('deleted_at')->WHERE([['status', '=' , 'Active'], ['name', 'like', '%'.$search->search.'%']])->get();
+            $output = '';
+            if($selectCourses){
+                foreach ($selectCourses as $key => $course) {
+                    $output = $output.'<li><a href="/single_course/'.$course->id.'">'.$course->name.'</a></li><br>';
+                }    
+             echo $output;
+            }else{
+                echo "<li>No Course Found...</li>";
+            }
+        
+        
+        
+       
+    }
 	public function search($query)
 	{
 		$title = 'Ethical Hacking Course In Tamil';
@@ -88,6 +117,7 @@ class IndexController extends Controller
 		if($status == 'Failed'){
 		     \Session::flash('message','Payment Failed');
 		     return redirect('/single_course/'.$course_id);
+            // return redirect('/single_course/'.$course_id)->with('error','Payment Failed');
 		}else{
 		    $singleCourse = DB::table('all_courses')->WHERE('id', $course_id)->first();
         if ($singleCourse->purchased_by == '[]') {
@@ -204,6 +234,7 @@ class IndexController extends Controller
 	}
 	public function student_login()
 	{
+		// echo "testing";
 		$title = 'Login Ethical Hacking';
 		return view('frontend.login', compact('title'));
 	}
@@ -461,42 +492,43 @@ class IndexController extends Controller
 	// Payment
 
 	public function createRequest(request $request){
+    
+        if($request->amount > 0){
+		$ch = curl_init();
 
-		if($request->amount > 0){
-			$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'https://www.instamojo.com/api/1.1/payment-requests/');
+        // curl_setopt($ch, CURLOPT_URL, 'https://test.instamojo.com/api/1.1/payment-requests/');
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+// 		curl_setopt($ch, CURLOPT_HTTPHEADER,
+// 		            array("X-Api-Key:test_fa70c006a6d49ec49f17abc46c6",
+// 		                  "X-Auth-Token:test_fce832d9fbca79e05c12e36551b"));
+		curl_setopt($ch, CURLOPT_HTTPHEADER,
+		            array("X-Api-Key:f020818fc4949ccf9b8e816cd37e281e",
+		                  "X-Auth-Token:4839231580e63cd542b29ae45d3c682e"));
+		$payload = Array(
+		    'purpose' => $request->purpose,
+		    'amount' => $request->amount,
+		    'phone' => null,
+		    'buyer_name' => $request->name,
+		    'redirect_url' => 'http://frankeey.com/frontend/buyNow/'.$request->course_id.'/'.$request->user_id,
+		    'send_email' => false,
+		    'webhook' => 'http://instamojo.dev/webhook/',
+		    'send_sms' => false,
+		    'email' => $request->email,
+		    'allow_repeated_payments' => false
+		);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+		$response = curl_exec($ch);
+		curl_close($ch); 
 
-			// curl_setopt($ch, CURLOPT_URL, 'https://www.instamojo.com/api/1.1/payment-requests/');
-			curl_setopt($ch, CURLOPT_URL, 'https://test.instamojo.com/api/1.1/payment-requests/');
-			curl_setopt($ch, CURLOPT_HEADER, FALSE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-			curl_setopt($ch, CURLOPT_HTTPHEADER,
-			            array("X-Api-Key:test_fa70c006a6d49ec49f17abc46c6",
-			                  "X-Auth-Token:test_fce832d9fbca79e05c12e36551b"));
-			$payload = Array(
-			    'purpose' => $request->purpose,
-			    'amount' => $request->amount,
-			    'phone' => null,
-			    'buyer_name' => $request->name,
-			    // 'redirect_url' => 'http://instamojo.dev/redirect/',
-			    'redirect_url' => 'http://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id,
-			    'send_email' => false,
-			    'webhook' => 'http://instamojo.dev/webhook/',
-			    'send_sms' => false,
-			    'email' => $request->email,
-			    'allow_repeated_payments' => false
-			);
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
-			$response = curl_exec($ch);
-			curl_close($ch); 
+		 $data = json_decode($response, true);
 
-			 $data = json_decode($response, true);
-
-			return redirect($data['payment_request']['longurl']);
-			
-		}else{
-				return redirect('http://udemy.test/frontend/buyNow/'.$request->course_id.'/'.$request->user_id.'?payment_status=success');
+		return redirect($data['payment_request']['longurl']);
+        }else{
+				return redirect('http://frankeey.com/frontend/buyNow/'.$request->course_id.'/'.$request->user_id.'?payment_status=success');
 		}
 
 	}

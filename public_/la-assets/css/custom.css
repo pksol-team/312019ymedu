@@ -1,0 +1,10 @@
+/************************ Custom *****************************/
+
+.notifications.notifications-Users {
+    color: #1a2226;
+    background-color: #b8c7ce;
+    border-radius: 7px;
+    padding: 2px 6px;
+    text-align: center;
+    margin-left: 15px;
+}

@@ -1,21 +1,33 @@
 <?php
 /* ================== Frontend ================== */
+Route::get('/frontend/index_current', 'Frontend\IndexController@index_current');
+
+// Route::get('/login_test', 'Frontend\IndexController@student_login');
+
 Route::get('/', 'Frontend\IndexController@index');
 Route::get('/frontend', 'Frontend\IndexController@index');
 Route::get('/frontend/profile', 'Frontend\IndexController@profile');
-Route::get('/frontend/login', 'Frontend\IndexController@student_login');
+Route::get('/frontend/login_student', 'Frontend\IndexController@student_login');
 Route::post('/frontend/login_check', 'Frontend\IndexController@login_check');
 Route::get('/frontend/register', 'Frontend\IndexController@student_register');
 Route::post('/frontend/register_check', 'Frontend\IndexController@register_check');
 Route::get('/frontend/logout', 'Frontend\IndexController@logout');
 Route::get('/search/{query}', 'Frontend\IndexController@search');
 Route::get('/single_course/{id}', 'Frontend\IndexController@single_course');
+
+
 Route::get('/frontend/user_verify/{hash}', 'Frontend\IndexController@studentverify');
+
 Route::get('/profile/make_fav/{course_id}/{user_id}', 'Frontend\IndexController@make_fav');
+
 Route::get('/frontend/buyNow/{course_id}/{user_id}', 'Frontend\IndexController@buyNow');
+
 Route::get('/course_videos/{id}', 'Frontend\IndexController@course_videos');
+
 Route::get('/questions/{id}', 'Frontend\IndexController@course_questions');
+
 Route::get('/answer/{course_id}/{id}', 'Frontend\IndexController@questions_answer');
+
 Route::get('/frontend/thumb', 'Frontend\IndexController@thumb');
 
 // Comment
@@ -33,6 +45,9 @@ Route::get('/certificate/{id}', 'Frontend\IndexController@certificate');
 // Payment
 Route::post('/createRequest', 'Frontend\IndexController@createRequest');
 
+
+// Search Course
+Route::post('/searchcourse', 'Frontend\IndexController@search_course');
 
 /* ================== Homepage ================== */
 // Route::get('/', 'LA\DashboardController@index');

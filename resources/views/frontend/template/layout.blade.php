@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="/frontend/css/bootstrap.css">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!-- include the site stylesheet -->
     <link rel="stylesheet" href="/frontend/css/plugins.css">
@@ -47,14 +48,36 @@
     <link href="/frontend/plugins/lity-2.3.1/dist/lity.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/frontend/js/read-more.js">
-
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
     <!-- include SummerNote Editor CSS -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
         <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127096773-1"></script>
 <!-- include jQuery -->
 <script src="/frontend/js/jquery.js"></script>
-
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '366014760667756');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=366014760667756&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<script>
+  fbq('track', 'ViewContent', {
+    value: 1,
+    currency: 'INR',
+  });
+</script>
 
 <link rel="stylesheet" href="/frontend/css/style_course_video.css">
 <script src="/frontend/js/javascript_course_video.js"></script>
@@ -65,20 +88,83 @@
 
   gtag('config', 'UA-127096773-1');
 </script>
+
+
 </head>
 <style>
 #more {display: none;}
+
+.ashwin {
+    background-color: orange;
+    padding: 20px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    color: #0060B6;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 90px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+}
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+}
+
+a:hover 
+{
+     color:#ff4300; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
+
+.bbb {
+    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    
+}
+
+.shadowss {
+    
+    box-shadow: 11px 7px 73px -16px rgba(0,0,0,0.42);
+    border-radius: 25px;
+    
+}
+
+#shadowss {
+    
+    box-shadow: 11px 7px 73px -16px rgba(0,0,0,0.42);
+    border-radius: 25px;
+    
+}
+
+#timer {
+ color: #ffffff;   
+}
+
+#footer-text {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;
+   font-family: 'Quicksand', sans-serif;
+}
+
 </style>
 <body>
   <?php if (Auth::check()){
     $buyNow = 'https://imjo.in/MKwG5u';
   }else {
-    $buyNow = '/frontend/login';
+    $buyNow = '/frontend/login_student';
   }
 
   $user = Auth::user();
   ?>
-
 
     <!-- main container of all the page elements -->
     <div id="wrapper">
@@ -91,10 +177,11 @@
                        <!--  <div class="col-xs-2 col">
                           </div> -->
                         <div class="col-xs-8 col">
+                            
                           <div class="logo">
                                 <a href="/">
                                   <!-- <span>FRANKEEY</span> -->
-                                    <img src="/frontend/images/logo.png" alt="studylms">
+                                    <img src="/frontend/images/logo (1).png" alt="studylms">
                                 </a>
                             </div>
 
@@ -103,9 +190,12 @@
                               <!-- search form -->
                               <form action="/search/" method="get" class="search-form" id="searchForm">
                                  <fieldset>
-                                  <button id="searchSubmit" type="submit" class="fas fa-search"><span class="sr-only">Search For Courses</span></button>
+                                     
+                                  <button id="searchSubmit" class="fas fa-search" disabled='true'><span class="sr-only">Search For Courses</span></button>
                                     <input id="searchInput" placeholder=" Search For Courses" class="form-control" name="s" type="search">
-                                    
+                                        <div class = "search_li">
+                                        <ul id="display"></ul>
+                                        </div>
                                  </fieldset>
                               </form>
                            </section>
@@ -118,9 +208,9 @@
                           <a href="/frontend/profile" class="buttonbuy1"><span><?php echo $user->name; ?> </span></a>
                         </div> </br>
                         <div style="text-align: center;">
-                          <a href="/frontend/logout" onclick="return confirm('Are you sure want to Logout?')"> <button class="buttonbuy1" class="buttonbuy1"><span>LOGOUT </span></a>
+                          <a href="/frontend/logout" onclick="return confirm('Are you sure want to Logout?')" class="buttonbuy1" class="buttonbuy1"><span>Logout</span></a>
                           <?php else: ?>
-                            <a href="/frontend/login" class="buttonbuy1"><span>LOGIN </span></a>
+                            <a href="/frontend/login_student" class="buttonbuy1"><span>LOGIN </span></a>
                           <?php endif ?>
                         </div> </br>
                         <div style="text-align: center;"  class="buttonbuy13">
@@ -137,6 +227,10 @@
             <!-- header holder -->
             
         </header>
+        
+        <div class="ashwin">
+<a>Android App Development, Web Designing Courses For Just Rs.999/- Only Till <div id="timer"></div></a>
+</div>
         <!-- contain main informative part of the site -->
     	@yield('content')
            <!-- footer area container -->
@@ -195,7 +289,93 @@
         <!-- include jQuery -->
         <script type="text/javascript" src="/frontend/js/init.js"></script>
         <script type="text/javascript" src="/frontend/plugins/lity-2.3.1/dist/lity.js"></script>
-
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/59f5bf214854b82732ff8984/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+        </script>
+        <!--End of Tawk.to Script-->
+        <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Mar 31, 2019 23:00:00").getTime();
+        
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+        
+          // Get todays date and time
+          var now = new Date().getTime();
+            
+          // Find the distance between now and the count down date
+          var distance = countDownDate - now;
+            
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+          // Output the result in an element with id="demo"
+          document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+          + minutes + "m " + seconds + "s ";
+            
+          // If the count down is over, write some text 
+          if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "EXPIRED";
+          }
+        }, 1000);
+        
+        
+        $(document).ready(function() {
+           //On pressing a key on "Search box" in "search.php" file. This function will be called.
+           $("#searchInput").keyup(function() {
+               //Assigning search box value to javascript variable named as "name".
+               var name = $('#searchInput').val();
+              console.log(name);
+               if (name == "") {
+                   //Assigning empty value to "display" div in "search.php" file.
+                   $("#display").html("");
+               }
+                else {
+                    //AJAX is called.
+                   $.ajax({
+                       //AJAX type is "Post".
+                       type: "POST",
+                       //Data will be sent to "ajax.php".
+                       url: "/searchcourse",
+                       //Data, that will be sent to "ajax.php".
+                       data: {
+                           //Assigning value of "name" into "search" variable.
+                           search: name,
+                           _token: "{{ csrf_token() }}",
+                       },
+                       //If result found, this funtion will be called.
+                       success: function(html) {
+                           //Assigning result to "display" div in "search.php" file.
+                           $('.search_li').show();
+                          $("#display").html(html).show();
+                        
+                        // console.log($("#display"));
+                       }
+                   });
+               }
+           });
+        });
+        
+        $("#searchInput").focusout(function(){
+            $('.search_li').hide();
+            console.log("click");
+        });
+      
+      
+        </script>
         
         <!-- include SummerNote Editor JS -->
 

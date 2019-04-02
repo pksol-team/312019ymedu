@@ -45,7 +45,7 @@
            }
 
            #wrapper.toggled #sidebar-wrapper {
-               width: 432px;
+               width: 423px;
            }
 
            #page-content-wrapper {
@@ -356,6 +356,60 @@
             .is-open .fa-list-ul:before {
                 content: "\f00d" !important;
             }
+            @media all and (max-width:1024px){
+                
+                #wrapper.toggled #sidebar-wrapper{
+
+                    width:350px;
+                }
+                }
+
+            @media all and (max-width:768px){
+                    button.hamburger.cross.is-open {
+                     left: 100px !important;
+                }
+                }
+            @media all and (max-width: 768px){
+                 #wrapper.toggled #page-content-wrapper{
+                     width: 54.9%;
+                     }
+                 button.hamburger.cross.is-open {
+                     left: 0px !important;
+                     }
+                   }
+            @media all and (max-width:426px){
+                button.hamburger.cross.is-open {
+                   
+                    left: 150px !important;
+                    }
+               }
+            @media all and (max-width:376px){
+               .navbar button.hamburger.right_cross.is-open{
+   
+                        display:block !important;
+                        color:#000;
+                        left:unset;
+                        right:10px;
+                    }
+                    #page-content-wrapper .cross.is-open {
+                       display: none;
+                 }
+                    
+                }    
+        
+
+            
+            /*@media screen and (max-width:510px) {*/
+            /*  button.right_cross {*/
+            /*        color : black !important;*/
+            /*        top: 9px;*/
+            /*        right:30px;*/
+            /*        display: block;*/
+            /*    }*/
+            /*    button.cross{*/
+            /*        display:none;*/
+            /*    }*/
+            /*}*/
 
       /*.player, .player *, .player ::after, .player ::before{
         height: 100vh !important;

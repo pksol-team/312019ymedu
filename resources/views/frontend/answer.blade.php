@@ -51,7 +51,7 @@
          </div><!-- /.course-intro -->
          <div class="col-md-8 course-description">
           <a href="/single_course/<?= $singleCourse->id ?>"><h2>{{ $singleCourse->name }}</h2></a>
-          <a href="/course_videos/<?= $singleCourse->id; ?>"><button class="btn btn-danger">Continue to Lecture</button></a>
+          <a href="/course_videos/<?= $singleCourse->id; ?>"><button class="btn btn-danger">Continue to Videos</button></a>
           <div class="rating-holder">
               <ul class="star-rating list-unstyled">
                  <?php
